@@ -6,7 +6,7 @@ title = "About"
 weight = 1
 +++
 
-I am Tomas Vitvar. I work in computer software industry for over 25 years currently with Oracle as a Technology Architect Director for large-scale integration and cloud projects. I also hold an associate professor position at the Czech Technical University in Prague where I look after the Web engineering curricula as a lecturer and a chair in [two post-graduate courses](/lectures/) on middleware, integration, and infrastructure for the Web.
+I am Tomas Vitvar. I have been working in computer software industry for over 25 years currently with Oracle as a Technology Architect Director for large-scale integration and cloud projects. I also hold an associate professor position at the Czech Technical University in Prague where I look after the Web engineering curricula as a lecturer and a chair in [two post-graduate courses](/lectures/) on middleware, integration, and infrastructure for the Web.
 
 Before I joined Oracle, I spent much time in research when working in DERI (currently [Insight](https://www.insight-centre.org/)) at [National University of Ireland](https://www.nuigalway.ie/) and [University of Innsbruck](https://www.uibk.ac.at/) in Austria in projects around Semantic Web and Web services. I published over [40 articles](https://scholar.google.be/citations?user=-DKTQpIAAAAJ) in journals and conferences including IEEE Internet Computing, IEEE Software on topics of service‐oriented computing and Web engineering.
 

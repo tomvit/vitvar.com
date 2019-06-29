@@ -6,7 +6,7 @@ slug: "hrests-microformat"
 draft: false
 ---
 
-Our work on hRESTS, a microformat to describe RESTful services (co-authored by [Jacek Kopecky](http://www.jacek.cz), Karthik Gomadam and me) has been accepted to a Web Intelligence conference to be held in Sydney, Australia this year in December (the acceptance rate was around 18%). You can download the full paper [here](http://www.vitvar.com/doc/WI2008-KopeckyGV.pdf).
+Our work on hRESTS, [a microformat to describe RESTful services](/docs/WI2008-KopeckyGV.pdf) (co-authored by [Jacek Kopecky](http://www.jacek.cz), Karthik Gomadam and me) has been accepted to a Web Intelligence conference to be held in Sydney, Australia this year in December (the acceptance rate was around 18%). You can download the full paper [here](http://www.vitvar.com/doc/WI2008-KopeckyGV.pdf).
 
 The value of today’s Web applications is no longer only in providing content to consumers but also in exposing functionality through public APIs designed for machine consumption. Typically, both Web applications and APIs today follow the Web architecture style called REST, and public APIs on the Web are often called “RESTful Web services”. The major problem with today’s RESTful APIs is that they are usually only described in a plain, unstructured HTML documentation useful only to a human developer. From this reason, finding suitable services, composing them (“mashing them up”), mediating between different data formats etc. are currently completely manual tasks.
 

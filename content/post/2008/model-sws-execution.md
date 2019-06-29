@@ -6,7 +6,7 @@ slug: "model-sws-execution"
 draft: false
 ---
 
-Our work on formal model for semantic-driven service execution (co-authored by me, [Adrian Mocan](http://www.adrian-mocan.com/), and Maciej Zaremba) will be published in proceedings of the 7th International Semantic Web Conference (ISWC) held in Karlsruhe, Germany in November this year (acceptance rate was 16%). You can access the full paper [here](http://www.vitvar.com/doc/ISWC2008-VitvarMZ.pdf).
+Our work on [formal model for semantic-driven service execution](/docs/ESWC2007-VitvarZM.pdf) (co-authored by me, [Adrian Mocan](http://www.adrian-mocan.com/), and Maciej Zaremba) will be published in proceedings of the 7th International Semantic Web Conference (ISWC) held in Karlsruhe, Germany in November this year (acceptance rate was 16%). You can access the full paper [here](http://www.vitvar.com/doc/ISWC2008-VitvarMZ.pdf).
 
 In this work we define a model and an algorithm for execution of services which interfaces we model using Abstract State Machine (ASM) using ontological concepts for their vocabularies (we call this description a choreography). Ontologically-enhanced ASM allows to model services’ interfaces with more descriptive information (as opposed to, for example, interfaces in WSDL only defining a set of operations with input and output messages and message exchange patterns). In this work we build additional layer of ASM descriptions on top of WSDL descriptions (XML Schema and Interface) and show how a conversation between two services can be executed.
 
