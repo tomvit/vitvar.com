@@ -7,7 +7,7 @@ draft: false
 disqus: true
 ---
 
-I was glad to co-chair AAAI Spring Symposium on Intelligent Web Services Meet Social Computing that was held in Stanford from 26-28 Match 2012. This post summarises the symposium goals, topics and program. 
+I was glad to co-chair AAAI Spring Symposium on Intelligent Web Services Meet Social Computing that was held in Stanford from 26-28 March 2012. This post summarises the symposium goals, topics and program. 
 
 ## Goals
 
