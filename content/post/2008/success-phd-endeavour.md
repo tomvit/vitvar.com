@@ -1,0 +1,28 @@
+---
+title: "Success of a PhD Endeavour"
+date: 2008-07-11T18:10:00+01:00
+description: "success criteria to finish your PhD"
+slug: "success-phd-endeavour"
+draft: false
+disqus: true
+---
+
+What are successful factors in completing a PhD degree? There is no ideal student who knows what he/she wants from the very beginning, however, there are several success criteria that you as a PhD student should know in order to be well prepared to work as a researcher in the future. Although a PhD degree is awarded based on a successful defence of your PhD thesis — a report on research results that you complete during studies — you should be active in a research community, publish and present papers in conferences and journals, and most importantly, do innovative work. A PhD thesis is a report describing research results which reflect all your professional activities.
+
+In my view, you as a PhD student should ideally:
+
+- **Know what to do.** Before you start a PhD you should already know what your PhD should be about. This does not mean that the idea should be crystal clear, but the direction of your work should be clear. This is usually related to your research group's activities that you are working with, but keep in mind that frequent changes of your topic is not a good sign.
+
+- **Be at the right place.** It is important that you are affiliated with a right group that works in the area of your PhD topic. A student alone is unlikely to do a valuable research as research areas are usually so broad that one cannot cover. Talking to professors, attending meetings, lectures, etc. is the most important thing in getting enough background knowledge for your research.
+
+- **Gain experience.** Depending on the research topic, it is sometimes important that you have some experience with “real life”. Research is about creating new methods, technologies, or techniques which can be used for better solutions of real problems. A lack of real-world experience may cause your work to be unrealistic.
+
+- **Have a motivation.** Doing a PhD is a long way to go. Getting familiar with the field, learning how to publish and write, finding out gaps to solve, etc. are all important aspects of your research. It is very much easy to lose the motivation on the way in many aspects. You may feel that what you do does not have any value. You may feel that you cannot do any innovative work as what you do has already been done by hundreds of others. You may feel “down” once you get a rejection of your paper from a workshop or a conference. Despite all such pitfalls, at some point you will learn that all this is about understanding of how to do research and learning from failures brings you closer to your targets.
+
+- **Keep deadlines.** It is easy to say “there is enough time, I will do it tomorrow” or “there will be another opportunity to publish my paper”. Postponing your deadlines is a start of losing your way in doing your research and, most importantly, completing your thesis. External deadlines such as those set by conferences or journals are very important as you cannot change them, so keeping those always bring you a step forward.
+
+- **Know your supervisor.** A good supervisor is one of the most important prerequisites for your PhD. A supervisor is an expert in your field and gives you feedback to your intermediate results and teaches you the technical quality of your work. He/she should also provide you with an access to the community, that is, he/she should introduce you to people, research groups, and provide you with publishing opportunities (well-established conferences, journals, magazines etc.). On the other hand, your supervisor can also be often busy such as having more students, managing projects, etc. Despite what your supervisor does or does not, he is the person who approves your work and eventually your thesis. It is therefore important that you learn how to deal with your supervisor, i.e. what are his/her requirements and what you have to do to fulfil the requirements.
+
+- **Have enough time.** Students are typically young, smart and enthusiastic people so it is easy to commit them to many tasks. You can end up teaching, working in projects, managing projects, organizing conferences, meetings, or doing some evangelism of your research field. Although all of these are very much important tasks that are certainly essential to go through and learn from them, however, you should keep them in line of your original research work while at the same time not committing to too many of them as they can easily distract you from your targets.
+
+I've also met various types of students who started their PhD from several reasons. There are students who want to extend their student life – they feel to be still young to start a "serious" life while they want to stay in touch with the university and with student's living style. There are students who are naturally born theoreticians and scientists who want to push their idea forward, make it right and real. There are students who love expressing themselves in front of an audience, they love to teach and explain stuff to others. And there are students who want to get their degree as they think it gives them an advantage in finding a good job. Although there is a big overlap among such groups and no matter what your motivation is, when you finish your PhD, it will certainly help you both professionally as well as personally.  

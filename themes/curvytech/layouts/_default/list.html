@@ -1,0 +1,45 @@
+{{ define "main" }}
+    <div class="archive">
+      
+    {{ $cutoff := 2012 }}
+      
+    {{ range .Data.Pages.GroupByDate "2006" }}
+        {{ if gt .Key $cutoff }}
+        <h3>{{ .Key }}</h3>
+        <ul>
+        {{ range .Pages }}
+          <div class="post-item">
+              <a href="{{ .Permalink }}" class="post-link">{{ .Title }}</a>
+              <span class="post-time">{{ .Date.Format "Jan 2" }}</span>
+          </div>
+        {{ end }}
+        </ul>
+        {{ end }}
+    {{ end }}
+
+    <h3>Earlier posts</h3>
+    <ul>
+    {{ range .Data.Pages.GroupByDate "2006" }}
+        {{ if le .Key $cutoff }}
+        {{ range .Pages }}
+        <div class="post-item">
+            {{ if .Params.ext_url }}
+            <a href="{{ .Params.ext_url }}" class="post-link">
+                {{ .Title }} 
+            </a>
+            <span class="post-time">({{ .Params.ext_site }})</span>                            
+            {{ else }}
+            <a href="{{ .Permalink }}" class="post-link">
+                {{ .Title }} 
+            </a>
+            {{ end }}                            
+            <span class="post-time">{{ .Date.Format "Jan 2, 2006" }}</span>
+        </div>
+        {{ end }}
+        {{ end }}
+    {{ end }}
+    </ul>
+    </div>
+    
+    
+{{ end }}

@@ -1,0 +1,8 @@
+{{ $site := .Get "site" }}
+{{ $eid := replace $site "." "_" }}
+<div id="{{ $eid }}"></div>
+<script>
+  $(function(){
+    new HumlaClient().render("{{ $site }}", "{{ $eid }}");
+  });
+</script>

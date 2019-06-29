@@ -1,0 +1,45 @@
+baseURL = "https://vitvar.com"
+languageCode = "en-us"
+title = "vitvar.com"
+theme = "curvytech"
+googleAnalytics = "UA-XYZ"
+copyright = "This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License."
+enableEmoji = "true"
+enableRobotsTXT = true
+pygmentsCodeFences = true
+pygmentsUseClasses=true
+disqusShortname = "blog-tvitvar"
+
+[outputs]
+  home = [ "HTML", "JSON", "RSS"]
+
+[params]
+  brand = "vitvar.com"
+  name = "Tomas Vitvar"
+  author = "Tomas Vitvar"
+  author_url = "https://vitvar.com"
+  description = "well-oiled machine"
+
+[author]
+    name = "Tomas Vitvar"
+    email = "tomas@vitvar.com"
+
+[permalinks]
+  post = "/:year/:month/:slug/"
+
+# [[menu.main]]
+#     name = "About"
+#     weight = -400
+#     identifier = "about"
+#     url = "/about/"
+# 
+# [[menu.main]]
+#     name = "Lectures"
+#     weight = -300
+#     identifier = "lectures"
+#       url = "/lectures/"
+
+[[menu.main]]
+    name = "Posts"
+    weight = 3
+    url = "/post/"

@@ -1,0 +1,26 @@
+version: '3.7'
+services:
+  web-hugo:
+    container_name: web-hugo
+    image: jojomi/hugo:latest
+    volumes:
+      - ../:/src
+      - ../public/:/output
+#    command: /bin/sh -c 'while true; do hugo --source="/src" --theme="curvytech" --destination="/output" --baseURL="" >/dev/null; sleep 5; done'
+    environment:
+      - HUGO_WATCH=true
+      - HUGO_REFRESH_TIME=-1
+      - HUGO_THEME=curvytech
+      - HUGO_BASEURL=http://localhost
+#    restart: always
+
+  web-nginx:
+    container_name: web-nginx
+    image: jojomi/nginx-static
+    volumes:
+      - ../output:/var/www
+    environment:
+      - VIRTUAL_HOST=
+    ports:
+      - '1313:80'
+#   restart: always

@@ -1,0 +1,13 @@
+---
+title: "SA-REST: Semantic Annotations for RESTFul Services"
+date: 2007-10-08T18:00:00+01:00
+description: ""
+slug: "sa-rest-semantic-annotations"
+draft: false
+---
+
+[IEEE Internet Computing](http://www.computer.org/internet) magazine in its [November/December issue](http://opac.ieeecomputersociety.org/opac?year=2007&volume=11&issue=6&acronym=internet) published an article authored by [Amit Sheth](http://knoesis.wright.edu/amit/) et al. on [SA-REST: Semantically Interoperable and Easier-to-Use Services and Mashups](http://doi.ieeecomputersociety.org/10.1109/MIC.2007.133). They discuss how to enable semantic annotations for RESTful services in an analogical way as SAWSDL does. They define a very simple mechanism to mark input, output, lifting, lowering and fault in the REST specification usually available through some XHTML page and by using [RDFa](http://en.wikipedia.org/wiki/RDFa) and [GRDDL](http://en.wikipedia.org/wiki/GRDDL). The main point is that since REST providers usually define the services in a textual form on the web there is no explicit and formal form for definition of input, output or fault schema for messages. SA-REST introduces a micro-format style to their semantic description as part of the REST service specification embedded in a XHTML page.
+
+I only wonder why authors define input and output keywords for SA-REST and do not adopt SAWSDL modelReference. SAWSDL modelReference is more generic annotation you can use for any kind of service description including information model (like they do with input and output) as well as functional (capability such as preconditions and effects) or non-functional descriptions. In my opinion, it would also be handy that the annotation framework is the same as the one introduced by SAWSDL as it would allow to work with independent semantic layer on the top of technologies like WSDL and REST.
+
+What I like in this work is the way how semantic annotations for services can be done using micro-format style to definition of meta-data about resources (in this case XHTML describing a RESTful service). They use RDFa and GRDDL for that purpose. This approach very much complements our work on [WSMO-Lite](http://www.wsmo.org/TR/d11/v0.2/) and it is inline with what we plan to further introduce in our conceptual models for services around [WSMO](http://en.wikipedia.org/wiki/WSMO). This will all happen in the EU FP7 project SOA4ALL and W3C Incubator Group called [SWS-Testbed](http://www.w3.org/2005/Incubator/swsc/) (Amit contributes to this group with semantic annotations for REST too).

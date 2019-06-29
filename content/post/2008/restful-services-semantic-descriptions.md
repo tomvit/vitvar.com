@@ -1,0 +1,13 @@
+---
+title: "RESTful Services and Semantic Descriptions"
+date: 2008-01-10T12:05:00+01:00
+description: ""
+slug: "restful-services-semantic-descriptions"
+draft: false
+---
+
+RESTful services are usually described in a free-text form in HTML while service descriptions (i.e. service contracts) are not explicitly defined. In addition, when creating Web 2.0 applications (mashups), the problem with integration of data produced or consumed by these services is still a remaining issue. A developer must either implement a mediator or change the implementation of a service (if possible) to conform to integration needs. SA-REST introduces a novel approach to annotation of RESTful service description in a HTML using microformats. Semantic descriptions can significantly improve the data integration and automation of service lifecycle. SA-REST proposes to use W3C recommendation where possible, thus the annotation mechanism is based on [RDFa](http://www.w3.org/TR/xhtml-rdfa-primer/) and [GRDDL](http://www.w3.org/TR/grddl/).
+
+SA-REST, however, does not define any forms of semantic descriptions but assumes that such descriptions will be reused. In this respect, SA-REST is an analogous approach to semantic annotations of [WSDL](http://www.w3.org/TR/wsdl20-primer/) using [SAWSDL](http://www.w3.org/2002/ws/sawsdl/). In the WSMO WG, we have recently done the work on WSMO-Lite (see our [paper in ECOWS 2007 conference](http://www.vitvar.com/!publications/ECOWS2007-VitvarKZF.pdf)) which defines a minimal lightweight service ontology and which can be used for annotations of WSDL services by means of SAWSDL. This is the new approach to augmenting existing service descriptions already available (within or outside of enterprises) in a bottom-up fashion. However, it is important to note that WSMO-Lite is independent on WSDL (and SAWSDL). In this respect, we plan to use WSMO-Lite as a concrete service ontology for annotation of RESTful services, and possibly build on top of SA-REST. This will introduce the second annotation mechanism for WSMO-Lite allowing to use both, WSDL and RESTful services as mechanisms for invocation and communication. We call this annotation mechanism MicroWSMO.
+
+MicroWSMO together with WSMO-Lite are the core specifications of the upcoming EU funded project [SOA4ALL](http://www.soa4all.org/).The goal of this project is to enable SOA architectures in the large-scale Web environment where semantics will play the central role in services' provisioning, automation, and scalability.

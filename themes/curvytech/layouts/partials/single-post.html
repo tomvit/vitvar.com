@@ -1,0 +1,16 @@
+<article class="post">
+    <header>
+        <span class="title">{{ .Title }}</span>
+        <span class="published">
+        {{ .Date.Format "January 2, 2006" }}
+        </span>
+    </header>
+    <section id="post-body">
+        {{ .Content }}
+    </section>
+</article>
+
+{{ if .Params.disqus }}
+{{ partial "disqus.html" . }}
+{{ end }}
+

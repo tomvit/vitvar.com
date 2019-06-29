@@ -1,0 +1,16 @@
+<nav>
+	<section class="container">
+	<div class="logo">
+		<a  href="{{ .Site.Params.author_url }}"> <h1 class="brand">{{ .Site.Params.brand }}</h1> </a>
+		<div class="subtitle">
+		<span>{{ .Site.Params.description }}</span>
+		</div>
+	</div>
+	<ul class="navigation-list">
+		{{ $cp := . }}
+		{{ range .Site.Menus.main }}
+			<li class="{{ if or ($cp.IsMenuCurrent "main" .) ($cp.HasMenuCurrent "main" .) (and (hasPrefix $cp.File.Path "post" ) (eq .Name "Posts")) }}active{{ end }}"><a  href='{{ .URL }}'>{{ .Name }}</a></li>
+		{{ end }}
+	</ul>
+	</section>
+</nav>
