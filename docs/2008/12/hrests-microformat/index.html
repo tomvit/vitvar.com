@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Tomas Vitvar">
+<meta name="description" content="well-oiled machine">
+<meta name="generator" content="Hugo 0.55.6" />
+<title>hRESTS: a Microformat for RESTful Services</title>
+<link rel="shortcut icon" href="/images/favicon.ico">
+
+
+<link rel="stylesheet" href="/css/style.min.c3e960194917a8b56485df0cada9d9b94b78531e0ad7a2f7c25e9dba64813245.css" integrity="sha256-w&#43;lgGUkXqLVkhd8MranZuUt4Ux4K16L3wl6dumSBMkU=">
+
+
+
+
+<link href="/index.xml" rel="alternate" type="application/rss+xml" title="vitvar.com" />
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+    </head>
+<body>
+    <nav>
+	<section class="container">
+	<div class="logo">
+		<a  href="https://vitvar.com"> <h1 class="brand">vitvar.com</h1> </a>
+		<div class="subtitle">
+		<span>well-oiled machine</span>
+		</div>
+	</div>
+	<ul class="navigation-list">
+		
+		
+			<li class=""><a  href='/about/'>About</a></li>
+		
+			<li class=""><a  href='/lectures/'>Lectures</a></li>
+		
+			<li class="active"><a  href='/post/'>Posts</a></li>
+		
+	</ul>
+	</section>
+</nav>
+
+    <section id="wrapper">
+        
+        
+	<article class="post">
+    <header>
+        <span class="title">hRESTS: a Microformat for RESTful Services</span>
+        <span class="published">
+        December 1, 2008
+        </span>
+    </header>
+    <section id="post-body">
+        <p>Our work on hRESTS, <a href="/docs/WI2008-KopeckyGV.pdf">a microformat to describe RESTful services</a> (co-authored by <a href="http://www.jacek.cz">Jacek Kopecky</a>, Karthik Gomadam and me) has been accepted to a Web Intelligence conference to be held in Sydney, Australia this year in December (the acceptance rate was around 18%). You can download the full paper <a href="http://www.vitvar.com/doc/WI2008-KopeckyGV.pdf">here</a>.</p>
+
+<p>The value of today’s Web applications is no longer only in providing content to consumers but also in exposing functionality through public APIs designed for machine consumption. Typically, both Web applications and APIs today follow the Web architecture style called REST, and public APIs on the Web are often called “RESTful Web services”. The major problem with today’s RESTful APIs is that they are usually only described in a plain, unstructured HTML documentation useful only to a human developer. From this reason, finding suitable services, composing them (“mashing them up”), mediating between different data formats etc. are currently completely manual tasks.</p>
+
+<p>hRESTS is a <a href="http://en.wikipedia.org/wiki/Microformat">microformat</a> for machine-readable descriptions of Web APIs, backed by a simple service model. In general, a microformat is an approach for annotating human-oriented Web pages so that key information is machine-readable. On top of microformats, <a href="http://en.wikipedia.org/wiki/GRDDL">GRDDL</a> is a mechanism for extracting RDF information from Web pages, particularly suitable for processing microformats. There are already microformats for contact information, geographic coordinates, calendar events, etc.</p>
+
+<p>hRESTS uses a model adopting a Web principle of hypermedia allowing a web application to use hyperlinks for linking application’s pages that can be seen as a service. Obviously, not every web application can be considered as a RESTful service as it does not necessarily follow the REST architecture style. There are a lot of examples of badly designed RESTful architectures. We use RDF to represent the model that can be further extended with additional information such as WSMO-Lite service ontology.</p>
+
+<p>In order to extract the meta-data from the annotated HTML document using hRESTS, one needs to know the hRESTS annotation mechanism. For this purpose and in accordance with GRDDL we also provide a XSLT stylesheet that extracts the meta-data in RDF from XHTML pages.</p>
+
+<p>Once the hRESTS is used by RESTful service providers, one can easily build a focused search engine for RESTful services, for example by using <a href="http://developer.yahoo.com/search/boss/">Yahoo! BOSS web search</a> in analogical way like BOSS web search can be used for e.g. searching LinkedIn public profiles annotated with <a href="http://microformats.org/wiki/hresume">hResume microformat</a>. We further plan to submit the hRESTS microformat to <a href="http://microformats.org/">microformats.org</a> as well as build extensions towards semantic annotations which we call MicroWSMO.</p>
+
+    </section>
+</article>
+
+
+
+
+
+
+        <footer id="footer">
+    <section class="container">
+      <div>
+        <p class="small">
+        Except where otherwise noted, content on this site is licensed under
+        Creative Commons Attribution-ShareAlike 4.0 License.
+        </p>
+      </div>
+      <div class="links">
+        <a href="/index.xml"><div class="icon-feed">&nbsp;</div></a>
+        <a href="https://cz.linkedin.com/in/vitvar"><div class="icon-linkedin">&nbsp;</div></a>
+        <a href="https://twitter.com/tomasvitvar"><div class="icon-twitter">&nbsp;</div></a>
+        <a href="https://github.com/tomvit"><div class="icon-github">&nbsp;</div></a>
+      </div>
+    </section>
+</footer>
+    </section>
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-XYZ', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+</body>
+</html>

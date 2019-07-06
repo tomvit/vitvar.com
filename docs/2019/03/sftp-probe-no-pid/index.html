@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Tomas Vitvar">
+<meta name="description" content="well-oiled machine">
+<meta name="generator" content="Hugo 0.55.6" />
+<title>SFTP probe with no PID</title>
+<link rel="shortcut icon" href="/images/favicon.ico">
+
+
+<link rel="stylesheet" href="/css/style.min.c3e960194917a8b56485df0cada9d9b94b78531e0ad7a2f7c25e9dba64813245.css" integrity="sha256-w&#43;lgGUkXqLVkhd8MranZuUt4Ux4K16L3wl6dumSBMkU=">
+
+
+
+
+<link href="/index.xml" rel="alternate" type="application/rss+xml" title="vitvar.com" />
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+    </head>
+<body>
+    <nav>
+	<section class="container">
+	<div class="logo">
+		<a  href="https://vitvar.com"> <h1 class="brand">vitvar.com</h1> </a>
+		<div class="subtitle">
+		<span>well-oiled machine</span>
+		</div>
+	</div>
+	<ul class="navigation-list">
+		
+		
+			<li class=""><a  href='/about/'>About</a></li>
+		
+			<li class=""><a  href='/lectures/'>Lectures</a></li>
+		
+			<li class="active"><a  href='/post/'>Posts</a></li>
+		
+	</ul>
+	</section>
+</nav>
+
+    <section id="wrapper">
+        
+        
+	<article class="post">
+    <header>
+        <span class="title">SFTP probe with no PID</span>
+        <span class="published">
+        March 20, 2019
+        </span>
+    </header>
+    <section id="post-body">
+        <p>There is no ideal world where all integrations use HTTP protocol. HTTP alone that SOAP services use (or even better REST) bring many advantages across the stack. Having said that, there are cases when a certain integration uses other protocols, for example, SFTP to upload a file to a remote server. And there is Enterprise Service Bus that acts as a message broker mixing and matching various protocols that your enterprise integration requires.</p>
+
+<p>I recently faced an issue with exhausted connections on a SSH server which limit was set by the default value of <code>MaxStartups</code> parameter <code>10:30:100</code>. This means that there is a maximum number of 10 unauthenticated connections before SSH daemon starts dropping them, a probability of 30% that a connection would be dropped when reaching this limit, and any connection beyond 100 would fail immediately. ESB typically runs in a clustered setup while there is a certain number of threads that can run the upload operation.</p>
+
+<p>In the above setup, the total number of connections was less than the <code>MaxStartups</code> limit while it was clear that there is another process that makes connection attempts and eventually causing the connection limit to be exceeded. From SSH logs I found that there is a client IP address that does not belong to any of the ESB cluster nodes and it was also possible to see that connection attempts come at intervals of one second from the same IP. Moreover, there was an established connection on the box with that IP address.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">neptun:/home/oracle $ sudo netstat --program --numeric-hosts --numeric-ports --extend <span class="p">|</span> grep <span class="s2">&#34;10.10.10.5&#34;</span>
+tcp        <span class="m">0</span>      <span class="m">0</span> <span class="m">192</span>.168.10.1:14792       <span class="m">10</span>.10.10.5:22            ESTABLISHED root       -   </code></pre></div>
+<p>So there was a probe running against the SSH server every second, however, it was not very obvious to identify the process running the probe. Any attempt to capture the PID that the established connection holds failed. The reason was that the process was already dead at the time of capturing the socket.</p>
+
+<p>My assumption was that the process must be running as a bash script and is using sleep command to always wait 1 second. When a script calls sleep, a sub-process is created, so I looked at the process hierarchy and found this one:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ ps -ejH 
+<span class="m">32790</span> <span class="m">32790</span> <span class="m">32630</span> ?        <span class="m">01</span>:22:39   sh
+<span class="m">53818</span> <span class="m">32790</span> <span class="m">32630</span> ?        <span class="m">00</span>:00:00     sleep </code></pre></div>
+<p>Then I checked open files of the process 32790 and voila:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">neptun:/home/oracle $ sudo ls -l /proc/32790/fd
+total <span class="m">0</span>
+lrwx------ <span class="m">1</span> root root <span class="m">64</span> Dec <span class="m">14</span> <span class="m">01</span>:44 <span class="m">0</span> -&gt; /dev/pts/3 <span class="o">(</span>deleted<span class="o">)</span>
+lrwx------ <span class="m">1</span> root root <span class="m">64</span> Dec <span class="m">14</span> <span class="m">01</span>:44 <span class="m">10</span> -&gt; /dev/pts/3 <span class="o">(</span>deleted<span class="o">)</span>
+lrwx------ <span class="m">1</span> root root <span class="m">64</span> Dec <span class="m">14</span> <span class="m">01</span>:44 <span class="m">11</span> -&gt; /dev/pts/3 <span class="o">(</span>deleted<span class="o">)</span>
+l-wx------ <span class="m">1</span> root root <span class="m">64</span> Dec <span class="m">14</span> <span class="m">01</span>:44 <span class="m">2</span> -&gt; /opt/probe/telnet-op
+lr-x------ <span class="m">1</span> root root <span class="m">64</span> Dec <span class="m">14</span> <span class="m">01</span>:44 <span class="m">255</span> -&gt; /opt/probe/telnet.sh</code></pre></div>
+<p>And the answer is:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">neptun:/home/oracle $ cat /opt/probe/telnet.sh
+<span class="k">while</span> sleep <span class="m">1</span><span class="p">;</span> <span class="k">do</span> <span class="nb">echo</span> <span class="s2">&#34;quit&#34;</span> <span class="p">|</span> telnet pluto <span class="m">22</span><span class="p">;</span> <span class="k">done</span> <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span> &gt;/dev/null</code></pre></div>
+    </section>
+</article>
+
+
+
+<div id="disqus_thread"></div>
+<a id="show-disqus" style="padding-top: -100px" href="#">show comments</a> 
+
+<script type="text/javascript">
+  $("#show-disqus").click((e)=>{
+    e.preventDefault();
+    $("#show-disqus").remove();
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'blog-tvitvar';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    $("#disqus_thread").css('display', 'block');  
+  })
+</script>
+
+
+
+
+
+
+        <footer id="footer">
+    <section class="container">
+      <div>
+        <p class="small">
+        Except where otherwise noted, content on this site is licensed under
+        Creative Commons Attribution-ShareAlike 4.0 License.
+        </p>
+      </div>
+      <div class="links">
+        <a href="/index.xml"><div class="icon-feed">&nbsp;</div></a>
+        <a href="https://cz.linkedin.com/in/vitvar"><div class="icon-linkedin">&nbsp;</div></a>
+        <a href="https://twitter.com/tomasvitvar"><div class="icon-twitter">&nbsp;</div></a>
+        <a href="https://github.com/tomvit"><div class="icon-github">&nbsp;</div></a>
+      </div>
+    </section>
+</footer>
+    </section>
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-XYZ', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+</body>
+</html>

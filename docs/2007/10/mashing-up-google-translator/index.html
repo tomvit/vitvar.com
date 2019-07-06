@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Tomas Vitvar">
+<meta name="description" content="well-oiled machine">
+<meta name="generator" content="Hugo 0.55.6" />
+<title>Mashing-up with Google Translator</title>
+<link rel="shortcut icon" href="/images/favicon.ico">
+
+
+<link rel="stylesheet" href="/css/style.min.c3e960194917a8b56485df0cada9d9b94b78531e0ad7a2f7c25e9dba64813245.css" integrity="sha256-w&#43;lgGUkXqLVkhd8MranZuUt4Ux4K16L3wl6dumSBMkU=">
+
+
+
+
+<link href="/index.xml" rel="alternate" type="application/rss+xml" title="vitvar.com" />
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+    </head>
+<body>
+    <nav>
+	<section class="container">
+	<div class="logo">
+		<a  href="https://vitvar.com"> <h1 class="brand">vitvar.com</h1> </a>
+		<div class="subtitle">
+		<span>well-oiled machine</span>
+		</div>
+	</div>
+	<ul class="navigation-list">
+		
+		
+			<li class=""><a  href='/about/'>About</a></li>
+		
+			<li class=""><a  href='/lectures/'>Lectures</a></li>
+		
+			<li class="active"><a  href='/post/'>Posts</a></li>
+		
+	</ul>
+	</section>
+</nav>
+
+    <section id="wrapper">
+        
+        
+	<article class="post">
+    <header>
+        <span class="title">Mashing-up with Google Translator</span>
+        <span class="published">
+        October 10, 2007
+        </span>
+    </header>
+    <section id="post-body">
+        <p>Have you ever though about your website or blog to be in multiple languages? Although the language that most people speak is English there might be people who would like to read your web in Russian or Chinese.</p>
+
+<p>Google (as well as some others) provide language tools allowing to translate any text or a website in a particular language to a number of other languages. However, if you want to make your site directly multilingual using these tools, you want to put the translate links directly to your website and customize the translation parameters. This is not as straightforward as one would expect. Also, when you supply the URL to the Google translator you get the entirely browsable website in the other language, however, there is always this annoying banner on the top of each page: “this page was automatically translated from…”. If you want to see how this works for my website, just go to the bottom of this page and clink on one of the flag images.</p>
+
+<p>For example, for a website in English the following code enables the German language link where you place it.</p>
+<div class="highlight"><pre class="chroma"><code class="language-html" data-lang="html"><span class="p">&lt;</span><span class="nt">form</span> <span class="na">action</span><span class="o">=</span><span class="s">&#34;http://www.google.com/translate_p&#34;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">script</span> <span class="na">language</span><span class="o">=</span><span class="s">&#34;javascript&#34;</span><span class="p">&gt;</span>
+     <span class="kd">var</span> <span class="nx">u</span> <span class="o">=</span> <span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">;</span>
+     <span class="kd">var</span> <span class="nx">r</span> <span class="o">=</span> <span class="k">new</span><span class="p">.</span><span class="nb">RegExp</span><span class="p">(</span><span class="s2">&#34;u=(.*)&#34;</span><span class="p">,</span> <span class="s2">&#34;&#34;</span><span class="p">);</span>
+     <span class="k">if</span> <span class="p">(</span><span class="nx">r</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nx">r</span> <span class="o">=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">);</span>
+        <span class="nx">u</span> <span class="o">=</span> <span class="nb">RegExp</span><span class="p">.</span><span class="nx">$1</span><span class="p">;</span>
+     <span class="p">}</span>
+     <span class="nb">document</span><span class="p">.</span><span class="nx">write</span> <span class="p">(</span><span class="s2">&#34;&lt;input name=&#39;u&#39; value=&#34;</span><span class="o">+</span><span class="nx">u</span><span class="o">+</span><span class="s2">&#34;
+</span><span class="s2">        type=&#39;hidden&#39;&gt;&#34;</span><span class="p">)</span>
+  <span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;hl&#34;</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;hidden&#34;</span> <span class="na">value</span><span class="o">=</span><span class="s">&#34;en&#34;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;ie&#34;</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;hidden&#34;</span> <span class="na">value</span><span class="o">=</span><span class="s">&#34;UTF8&#34;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;langpair&#34;</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;hidden&#34;</span> <span class="na">value</span><span class="o">=</span><span class="s">&#34;&#34;</span><span class="p">&gt;</span>   
+
+  <span class="cp">&lt;!- language links from English to other languages -&gt;</span>
+  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;flag&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;langpair&#34;</span> 
+     <span class="na">onclick</span><span class="o">=</span><span class="s">&#34;this.form.langpair.value=this.value&#34;</span>
+     <span class="na">src</span><span class="o">=</span><span class="s">&#34;url/to/german/image/flag&#34;</span> 
+     <span class="na">title</span><span class="o">=</span><span class="s">&#34;German&#34;</span> 
+     <span class="na">type</span><span class="o">=</span><span class="s">&#34;image&#34;</span>
+     <span class="na">value</span><span class="o">=</span><span class="s">&#34;en|de&#34;</span><span class="p">&gt;</span>
+  <span class="c">&lt;!--- other language links go here ---&gt;</span>
+<span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span></code></pre></div>
+<p>To place other language links just add other input elements with id “flag” and change src attribute for the image of the flag, title for the language name, and value in a form “en|lang” where lang is the language code (“de” for German, “it” for Italian, “es” for Spanish and so on).</p>
+
+<p>The reason why you need to use the JavaScript code is that when you click the German language link and the page is translated, you get the new page URL as something like</p>
+<div class="highlight"><pre class="chroma"><code class="language-html" data-lang="html">http://66.249.91.104/translate_c?hl=en<span class="err">&amp;</span>langpair=en%7Cde<span class="err">&amp;</span>u=http://mywebsite.com/</code></pre></div>
+<p>When the page is loaded the script extracts the real URL of your page and creates a parameter with name “u” with the value of proper URL of your page. This is necessary for subsequent clicks on the language links so that the real URL of your page is passed to the Google translator.</p>
+
+<p>The only problem remains with the translation itself. The Google translator translates everything which appears in the page. It would be very handy if the translation tool recognizes a special markup preserving the original text in the original language (such as names).</p>
+
+    </section>
+</article>
+
+
+
+
+
+
+        <footer id="footer">
+    <section class="container">
+      <div>
+        <p class="small">
+        Except where otherwise noted, content on this site is licensed under
+        Creative Commons Attribution-ShareAlike 4.0 License.
+        </p>
+      </div>
+      <div class="links">
+        <a href="/index.xml"><div class="icon-feed">&nbsp;</div></a>
+        <a href="https://cz.linkedin.com/in/vitvar"><div class="icon-linkedin">&nbsp;</div></a>
+        <a href="https://twitter.com/tomasvitvar"><div class="icon-twitter">&nbsp;</div></a>
+        <a href="https://github.com/tomvit"><div class="icon-github">&nbsp;</div></a>
+      </div>
+    </section>
+</footer>
+    </section>
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-XYZ', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+</body>
+</html>

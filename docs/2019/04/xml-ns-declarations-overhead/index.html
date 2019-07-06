@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Tomas Vitvar">
+<meta name="description" content="well-oiled machine">
+<meta name="generator" content="Hugo 0.55.6" />
+<title>Namespaces Declarations Overhead</title>
+<link rel="shortcut icon" href="/images/favicon.ico">
+
+
+<link rel="stylesheet" href="/css/style.min.c3e960194917a8b56485df0cada9d9b94b78531e0ad7a2f7c25e9dba64813245.css" integrity="sha256-w&#43;lgGUkXqLVkhd8MranZuUt4Ux4K16L3wl6dumSBMkU=">
+
+
+
+
+<link href="/index.xml" rel="alternate" type="application/rss+xml" title="vitvar.com" />
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+    </head>
+<body>
+    <nav>
+	<section class="container">
+	<div class="logo">
+		<a  href="https://vitvar.com"> <h1 class="brand">vitvar.com</h1> </a>
+		<div class="subtitle">
+		<span>well-oiled machine</span>
+		</div>
+	</div>
+	<ul class="navigation-list">
+		
+		
+			<li class=""><a  href='/about/'>About</a></li>
+		
+			<li class=""><a  href='/lectures/'>Lectures</a></li>
+		
+			<li class="active"><a  href='/post/'>Posts</a></li>
+		
+	</ul>
+	</section>
+</nav>
+
+    <section id="wrapper">
+        
+        
+	<article class="post">
+    <header>
+        <span class="title">Namespaces Declarations Overhead</span>
+        <span class="published">
+        April 25, 2019
+        </span>
+    </header>
+    <section id="post-body">
+        <p>When I checked some of request or response messages of SOA services, I noticed that there are sometimes multiple declarations of the same namespaces on several elements in the response message&rsquo;s XML tree. This can make the message pretty big, sometimes by almost 30%. May be you do not need to bother as your messages are not big, however, there are SOA deployments where this can be an issue, for example, messages may include empty elements and it is not possible to optimise them. Such messages may reach the size of several megabytes. When you need to handle several hundreds of such messages per second, then you may think of alternative ways to optimise their size.</p>
+
+<p>The problem is with the declaration of namespaces in XSLTs. I performed a test with JDeveloper IDE and discovered that when it generates XSLTs, it places a lot of namespaces on the <code>xsl:stylesheet</code> element. Since all namespaces are not always needed to be in the output XML, JDeveloper also lists all such namespaces&rsquo; prefixes in the <code>exclude-result-prefixes</code> attribute of the <code>xsl:stylesheet</code> document.</p>
+
+<p>To cut the long story short, in order to have a namespace listed on the root element of the resulting XML document, you have to remove that namespace&rsquo;s prefix from the list of the <code>exclude-result-prefixes</code> attribute. Do not remove all namespaces in this attribute as otherwise you get all namespaces listed on the root element of the XML document. Only remove namespaces that you use in the transformation.</p>
+
+<p>For example, XSL:</p>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;xsl:stylesheet</span> <span class="na">version=</span><span class="s">&#34;1.0&#34;</span> <span class="na">xmlns:ns0=</span><span class="s">&#34;http://some-uri-0&#34;</span> <span class="na">xmlns:ns1=</span><span class="s">&#34;http://some-uri-1&#34;</span> <span class="na">xmlns:xsl=</span><span class="s">&#34;http://some-uri-2&#34;</span>  
+      <span class="na">exclude-result-prefixes=</span><span class="s">&#34;ns0 ns1 xsl&#34;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;xsl:template</span> <span class="na">match=</span><span class="s">&#34;/&#34;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;ns0:root&gt;</span>
+        <span class="nt">&lt;ns1:foo1&gt;</span>bar1<span class="nt">&lt;/ns1:foo1&gt;</span>
+        <span class="nt">&lt;ns1:foo2&gt;</span>bar2<span class="nt">&lt;/ns1:foo2&gt;</span>
+    <span class="nt">&lt;/ns0:root&gt;</span>
+  <span class="nt">&lt;/xsl:template&gt;</span>
+<span class="nt">&lt;/xsl:stylesheet&gt;</span></code></pre></div>
+<p>will produce the following XML:</p>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;ns0:root</span> <span class="na">xmlns:ns0=</span><span class="s">&#34;http://some-uri-0&#34;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;ns1:foo1</span> <span class="na">xmlns:ns1=</span><span class="s">&#34;http://some-uri-1&#34;</span><span class="nt">&gt;</span>bar1<span class="nt">&lt;/ns1:foo1&gt;</span>
+    <span class="nt">&lt;ns1:foo2</span> <span class="na">xmlns:ns1=</span><span class="s">&#34;http://some-uri-1&#34;</span><span class="nt">&gt;</span>bar2<span class="nt">&lt;/ns1:foo2&gt;</span>     
+<span class="nt">&lt;/ns0:root&gt;</span></code></pre></div>
+<p>And what you want is this XML that you should be able to achieve by having the <code>exclude-result-prefixes=&quot;xsl&quot;</code> in the <code>xsl:stylesheet</code> element.</p>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;ns0:root</span> <span class="na">xmlns:ns0=</span><span class="s">&#34;http://some-uri-0&#34;</span> <span class="na">xmlns:ns1=</span><span class="s">&#34;http://some-uri-1&#34;</span><span class="nt">&gt;</span>
+ <span class="nt">&lt;ns1:foo1&gt;</span>bar1<span class="nt">&lt;/ns1:foo1&gt;</span>
+ <span class="nt">&lt;ns1:foo2&gt;</span>bar2<span class="nt">&lt;/ns1:foo2&gt;</span>  
+<span class="nt">&lt;/ns0:root&gt;</span></code></pre></div>
+    </section>
+</article>
+
+
+
+<div id="disqus_thread"></div>
+<a id="show-disqus" style="padding-top: -100px" href="#">show comments</a> 
+
+<script type="text/javascript">
+  $("#show-disqus").click((e)=>{
+    e.preventDefault();
+    $("#show-disqus").remove();
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'blog-tvitvar';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    $("#disqus_thread").css('display', 'block');  
+  })
+</script>
+
+
+
+
+
+
+        <footer id="footer">
+    <section class="container">
+      <div>
+        <p class="small">
+        Except where otherwise noted, content on this site is licensed under
+        Creative Commons Attribution-ShareAlike 4.0 License.
+        </p>
+      </div>
+      <div class="links">
+        <a href="/index.xml"><div class="icon-feed">&nbsp;</div></a>
+        <a href="https://cz.linkedin.com/in/vitvar"><div class="icon-linkedin">&nbsp;</div></a>
+        <a href="https://twitter.com/tomasvitvar"><div class="icon-twitter">&nbsp;</div></a>
+        <a href="https://github.com/tomvit"><div class="icon-github">&nbsp;</div></a>
+      </div>
+    </section>
+</footer>
+    </section>
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-XYZ', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+</body>
+</html>
