@@ -6,6 +6,7 @@ const RESOURCE_HUMLATOC = {
   columns: [
     { title: "NO.",        width: "5px",   data: "_no",   format: (value,row,type,val,meta)=>{ return meta.row+1 } },
     { title: "LECTURE",    width: "450px", data: "title", format: (value)=>formatTitle(value) },
+    { title: "SLIDES",     width: "10px",  data: "slidesCount" },    
     { title: "CONTENT",    width: "10px",  data: "_content", format: (value,row,type,val,meta)=>formatContent(value,row,type,val,meta) },    
     { title: "UPDATED",    width: "20px",  data: "lastModified", format: (value)=>formatDate(value) }
   ]
