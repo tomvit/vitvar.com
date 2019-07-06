@@ -5,7 +5,7 @@ services:
     image: jojomi/hugo:latest
     volumes:
       - ../:/src
-      - ../public/:/output
+      - ../docs/:/output
     #command: /bin/sh -c 'while true; do hugo --source="/src" --theme="curvytech" --destination="/output" --baseURL="" >/dev/null; sleep 5; done'
     #command: /bin/sh -c "while true; do sleep 5; done" 
     command: "/usr/local/sbin/hugo --watch=true --source=/src --theme=curvytech --destination=/output --baseURL=/"
@@ -20,7 +20,7 @@ services:
     container_name: web-nginx
     image: jojomi/nginx-static
     volumes:
-      - ../public:/var/www
+      - ../docs:/var/www
     environment:
       - VIRTUAL_HOST=
     ports:
