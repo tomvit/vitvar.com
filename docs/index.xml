@@ -19,8 +19,7 @@
       <pubDate>Tue, 18 Jun 2019 10:00:00 +0100</pubDate>
       <author>tomas@vitvar.com (Tomas Vitvar)</author>
       <guid>/2019/06/fresh-new-website/</guid>
-      <description>I finally refurbished my website to a new content and style. I am now using Hugo and a template from serialized.net which I very much like for its simplicity (thank you Josh Barratt).
-There is a lot of stuff happening that I plan to share with anyone interested in performance tuning and troubleshooting mainly around large-scale integration domains covering both traditional architectures such as SOA and ESB, but also more recent ones around microservices.</description>
+      <description>I finally refurbished my website to a new content and style. I am now using Hugo and a template from serialized.net which I very much like for its simplicity (thank you Josh Barratt). I am also using GitHub to store the source code and GitHub pages to host the website. There is two docker containers (Hugo and nginx server) that I use to run my website locally before I post the final content to GitHub.</description>
     </item>
     
     <item>
