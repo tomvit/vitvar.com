@@ -13,40 +13,40 @@
   </url>
   
   <url>
-    <loc>/2019/06/fresh-new-website/</loc>
-    <lastmod>2019-06-18T10:00:00+01:00</lastmod>
+    <loc>/post/</loc>
+    <lastmod>2019-06-25T10:00:00+01:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/post/</loc>
-    <lastmod>2019-06-18T10:00:00+01:00</lastmod>
-    <priority>0</priority>
+    <loc>/2019/06/service-call-resolver-timeout/</loc>
+    <lastmod>2019-06-25T10:00:00+01:00</lastmod>
   </url>
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-06-18T10:00:00+01:00</lastmod>
+    <lastmod>2019-06-25T10:00:00+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/2019/05/service-call-resolver-timeout/</loc>
+    <loc>/2019/06/weblogic-dms-metric-collector/</loc>
+    <lastmod>2019-06-07T10:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2019/06/sftp-probe-no-pid/</loc>
+    <lastmod>2019-06-02T10:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2019/05/xml-ns-declarations-overhead/</loc>
     <lastmod>2019-05-25T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>/2019/04/xml-ns-declarations-overhead/</loc>
-    <lastmod>2019-04-25T10:00:00+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/2019/03/sftp-probe-no-pid/</loc>
-    <lastmod>2019-03-20T10:00:00+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/2019/01/weblogic-dms-metric-collector/</loc>
-    <lastmod>2019-01-18T10:00:00+01:00</lastmod>
+    <loc>/2019/05/fresh-new-website/</loc>
+    <lastmod>2019-05-18T10:00:00+01:00</lastmod>
   </url>
   
   <url>

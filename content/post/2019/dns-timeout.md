@@ -1,6 +1,6 @@
 ---
 title: "Service Outbound Call and DNS Resolver Timeout"
-date: 2019-05-25T10:00:00+01:00
+date: 2019-06-25T10:00:00+01:00
 description: ""
 slug: "service-call-resolver-timeout"
 draft: false

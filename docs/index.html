@@ -8,7 +8,7 @@
 <meta name="description" content="well-oiled machine">
 <meta name="generator" content="Hugo 0.55.6" />
 <title>vitvar.com &middot; vitvar.com</title>
-<link rel="shortcut icon" href="images/favicon.ico">
+<link rel="shortcut icon" href="/images/favicon.ico">
 
 
 <link rel="stylesheet" href="/css/style.min.css" integrity="">
@@ -52,18 +52,49 @@
 	
 		<article class="post">
     <header>
-        <span class="title">Fresh New Website</span>
+        <span class="title">Service Outbound Call and DNS Resolver Timeout</span>
         <span class="published">
-        June 18, 2019
+        June 25, 2019
         </span>
     </header>
     <section id="post-body">
-        <p>I finally refurbished my website to a new content and style. I am now using <a href="https://gohugo.io">Hugo</a> and a template from <a href="https://serialized.net/">serialized.net</a> which I very much like for its simplicity (thank you <a href="https://serialized.net/about/">Josh Barratt</a>). I am also using GitHub to store the source code and GitHub pages to host the website. There is two docker containers (Hugo and nginx server) that I use to run my website locally before I post the final content to GitHub. GitHub makes it very simple to run static websites all for free.</p>
+        <p>In order to maintain your integration platform&rsquo;s resilience, you should have timeouts on your services&rsquo; outbound calls. When you do, any long running outbound service call won&rsquo;t block your threads. And it is important to have enough threads in your thread pool at any point in time as otherwise your integration middleware may be blocked and process no requests.</p>
 
-<p>There is a lot of stuff happening that I plan to share with anyone interested in performance tuning and troubleshooting mainly around large-scale integration domains covering both traditional architectures such as SOA and ESB, but also more recent ones around microservices. I also spend much time in my home sandbox and hopefully some of my <strong><em>mud pies</em></strong> could be of interest to you. I share as much as I can on <a href="https://github.com/tomvit?tab=repositories">GitHub</a> as gists or open source software that you are free to fork and reuse.</p>
+<p>You should be able to set two kinds of timeouts on your outbound HTTP service calls, namely <strong><em>HTTP connect timeout</em></strong> and <strong><em>HTTP read timeout</em></strong>. When your service&rsquo;s endpoint contains a hostname, a time to resolve the hostname to an IP address counts against the HTTP connect timeout. Operating system usually has two DNS servers configured in <code>/etc/resolv.conf</code>, one primary and one secondary. The secondary server is a failover server when a name resolution request to the primary fails or timeouts. However, most of <code>resolv.conf</code> configurations do not define timeouts to failover to the secondary server, which may cause problems in upper layers of the stack.</p>
+
+<p>Consider the following scenario:</p>
+
+<ol>
+<li><p>There is a HTTP connect timeout towards a downstream service endpoint which is set to 5 seconds.</p></li>
+
+<li><p>Your server tries to establish a connection with a hostname from your downstream service&rsquo;s endpoint. The server tries to resolve the hostname to an IP address by calling the resolver.</p></li>
+
+<li><p>When the primary server is down, the resolver will failover to the secondary one as per the timeout and a number of attempts configuration. As there is no explicit setting, the resolver will use <a href="http://man7.org/linux/man-pages/man5/resolver.5.html">default values of 5 seconds and 2 attempts</a>. A single hostname resolution will thus take at least 10 seconds.</p></li>
+
+<li><p>Since the connect timeout of 5 seconds is less than the failover timeout of 10 seconds, the call to the downstream service will fail on connect timeout.</p></li>
+</ol>
+
+<p>You will most likely only see a connect timeout message in your server logs leaving you with your full stack investigation to understand the root cause of this issue.</p>
 
     </section>
 </article>
+
+
+
+<div id="disqus_thread"></div>
+<a id="show-disqus" style="padding-top: -100px" href="#">show comments</a> 
+
+<script type="text/javascript">
+  $("#show-disqus").click((e)=>{
+    e.preventDefault();
+    $("#show-disqus").remove();
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'blog-tvitvar';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    $("#disqus_thread").css('display', 'block');  
+  })
+</script>
 
 
 

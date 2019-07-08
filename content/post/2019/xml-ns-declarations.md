@@ -1,6 +1,6 @@
 ---
 title: "Namespaces Declarations Overhead"
-date: 2019-04-25T10:00:00+01:00
+date: 2019-05-25T10:00:00+01:00
 description: ""
 slug: "xml-ns-declarations-overhead"
 draft: false

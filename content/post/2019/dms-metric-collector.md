@@ -1,6 +1,6 @@
 ---
 title: "Weblogic DMS Metric Collector"
-date: 2019-01-18T10:00:00+01:00
+date: 2019-06-07T10:00:00+01:00
 description: ""
 slug: "weblogic-dms-metric-collector"
 draft: false
