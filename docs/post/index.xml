@@ -20,8 +20,7 @@
       <pubDate>Tue, 25 Jun 2019 10:00:00 +0100</pubDate>
       <author>tomas@vitvar.com (Tomas Vitvar)</author>
       <guid>/2019/06/service-call-resolver-timeout/</guid>
-      <description>In order to maintain your integration platform&amp;rsquo;s resilience, you should have timeouts on your services&amp;rsquo; outbound calls. When you do, any long running outbound service call won&amp;rsquo;t block your threads. And it is important to have enough threads in your thread pool at any point in time as otherwise your integration middleware may be blocked and process no requests.
-You should be able to set two kinds of timeouts on your outbound HTTP service calls, namely HTTP connect timeout and HTTP read timeout.</description>
+      <description>In order to maintain your integration platform&amp;rsquo;s resilience, you should have timeouts on your services&amp;rsquo; outbound calls. When you do, any long running outbound service call won&amp;rsquo;t block your threads. And it is important to have enough threads in your thread pool at any point in time as otherwise your integration middleware may be blocked and process no requests. These are obviously caveats of blocking I/O, when your integration middleware uses asynchronous (non-blocking) calls, the situation is different.</description>
     </item>
     
     <item>

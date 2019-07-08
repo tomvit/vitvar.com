@@ -7,7 +7,7 @@ draft: false
 disqus: true
 ---
 
-In order to maintain your integration platform's resilience, you should have timeouts on your services' outbound calls. When you do, any long running outbound service call won't block your threads. And it is important to have enough threads in your thread pool at any point in time as otherwise your integration middleware may be blocked and process no requests. 
+In order to maintain your integration platform's resilience, you should have timeouts on your services' outbound calls. When you do, any long running outbound service call won't block your threads. And it is important to have enough threads in your thread pool at any point in time as otherwise your integration middleware may be blocked and process no requests. These are obviously caveats of blocking I/O, when your integration middleware uses asynchronous (non-blocking) calls, the situation is different. 
 
 You should be able to set two kinds of timeouts on your outbound HTTP service calls, namely ***HTTP connect timeout*** and ***HTTP read timeout***. When your service's endpoint contains a hostname, a time to resolve the hostname to an IP address counts against the HTTP connect timeout. Operating system usually has two DNS servers configured in ```/etc/resolv.conf```, one primary and one secondary. The secondary server is a failover server when a name resolution request to the primary fails or timeouts. However, most of ```resolv.conf``` configurations do not define timeouts to failover to the secondary server, which may cause problems in upper layers of the stack. 
 
