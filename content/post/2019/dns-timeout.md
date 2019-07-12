@@ -1,7 +1,7 @@
 ---
 title: "Service Outbound Call and DNS Resolver Timeout"
 date: 2019-06-25T10:00:00+01:00
-description: ""
+description: "resolver timeout, http connect timeout"
 slug: "service-call-resolver-timeout"
 draft: false
 disqus: true

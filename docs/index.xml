@@ -8,10 +8,19 @@
     <managingEditor>tomas@vitvar.com (Tomas Vitvar)</managingEditor>
     <webMaster>tomas@vitvar.com (Tomas Vitvar)</webMaster>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Tue, 25 Jun 2019 10:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 08 Jul 2019 10:00:00 +0100</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>SOA Service Multithreading Problem</title>
+      <link>/2019/07/soa-service-multithreading-problem/</link>
+      <pubDate>Mon, 08 Jul 2019 10:00:00 +0100</pubDate>
+      <author>tomas@vitvar.com (Tomas Vitvar)</author>
+      <guid>/2019/07/soa-service-multithreading-problem/</guid>
+      <description>When you develop your SOA services, you usually use a language such as BPEL (Business Process Execution Language) to implement a service orchestration logic. BPEL is a powerful language to implement any control flow logic you like as well as call downstream services by using SOAP or REST interfaces. It also gives you an opportunity to call a custom function developed in Java provided by a bespoke class loaded in your SOA platform.</description>
+    </item>
     
     <item>
       <title>Service Outbound Call and DNS Resolver Timeout</title>
