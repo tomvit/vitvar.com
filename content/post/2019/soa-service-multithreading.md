@@ -15,7 +15,7 @@ BPEL code when translated to executable code is well optimised to deal with any 
 
 The below scenario shows a situation in a specific settings when under a heavy load, a badly implemented multithreading in a custom Java implementation blocked the whole SOA server.
 
-![Service Multithreading Problem example](https://docs.google.com/drawings/d/e/2PACX-1vTN-dKeoKCeU9raKOG7RsqTCOO0TmwunQ6Hy-0o1Yso5-TbDu-rWPPNx9eZEWBsnn5uZy2V4J1SMZMN/pub?w=750 "Service Multithreading Problem Example")
+![Service Multithreading Problem example](https://docs.google.com/drawings/d/e/2PACX-1vTN-dKeoKCeU9raKOG7RsqTCOO0TmwunQ6Hy-0o1Yso5-TbDu-rWPPNx9eZEWBsnn5uZy2V4J1SMZMN/pub?w=750#center-wide "Service Multithreading Problem Example")
 
 In the scenario, there is a SOA service with BPEL code and embedded Java that calls ```getToken``` method provided by a bespoke Java class. The method eventually calls an external Token service. Note that you could implement such integration by using BPEL invoke activity, however, in some situations you need to implement an advanced logic around such integration that is not possible to do in BPEL. For example, you need to store results of outbound service calls in a shared memory and reuse them across multiple service instances. 
 

@@ -68,7 +68,7 @@
 
 <p>The below scenario shows a situation in a specific settings when under a heavy load, a badly implemented multithreading in a custom Java implementation blocked the whole SOA server.</p>
 
-<p><img src="https://docs.google.com/drawings/d/e/2PACX-1vTN-dKeoKCeU9raKOG7RsqTCOO0TmwunQ6Hy-0o1Yso5-TbDu-rWPPNx9eZEWBsnn5uZy2V4J1SMZMN/pub?w=750" alt="Service Multithreading Problem example" title="Service Multithreading Problem Example" /></p>
+<p><img src="https://docs.google.com/drawings/d/e/2PACX-1vTN-dKeoKCeU9raKOG7RsqTCOO0TmwunQ6Hy-0o1Yso5-TbDu-rWPPNx9eZEWBsnn5uZy2V4J1SMZMN/pub?w=750#center-wide" alt="Service Multithreading Problem example" title="Service Multithreading Problem Example" /></p>
 
 <p>In the scenario, there is a SOA service with BPEL code and embedded Java that calls <code>getToken</code> method provided by a bespoke Java class. The method eventually calls an external Token service. Note that you could implement such integration by using BPEL invoke activity, however, in some situations you need to implement an advanced logic around such integration that is not possible to do in BPEL. For example, you need to store results of outbound service calls in a shared memory and reuse them across multiple service instances.</p>
 
