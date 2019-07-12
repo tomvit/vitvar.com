@@ -216,6 +216,10 @@
 <a id="show-disqus" style="padding-top: -100px" href="#">show comments</a> 
 
 <script type="text/javascript">
+  var disqus_config = function () {
+          this.page.identifier = '\/2012\/03\/intelligent-services-social-computing\/';
+  };    
+
   $("#show-disqus").click((e)=>{
     e.preventDefault();
     $("#show-disqus").remove();

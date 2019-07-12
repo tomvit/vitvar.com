@@ -3,6 +3,10 @@
 <a id="show-disqus" style="padding-top: -100px" href="#">show comments</a> 
 
 <script type="text/javascript">
+  var disqus_config = function () {
+          this.page.identifier = '{{ .Permalink }}';
+  };    
+
   $("#show-disqus").click((e)=>{
     e.preventDefault();
     $("#show-disqus").remove();
