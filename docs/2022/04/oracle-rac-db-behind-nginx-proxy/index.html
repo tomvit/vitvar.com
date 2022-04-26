@@ -56,19 +56,19 @@
         </span>
     </header>
     <section id="post-body">
-        <p>If you use Oracle Real Application Clusters (RAC) for your Oracle Database, you most likely also use Single Client Access Name (SCAN) addresses to connect to your DB. The SCAN address usually resolves to a number of VIPs where each VIP uses a dedicated SCAN listener. Now assume that there is no connectivity from your client&rsquo;s network to the SCAN listener&rsquo;s VIPs, for example, due to network routing restrictions. However, you can access a node from your client&rsquo;s network that can connect to the SCAN listener&rsquo;s VIPs. You setup a reverse proxy on such a node and you provide a VIP of one of the the SCAN listeners in the reverse proxy configuration. And it may happen that you get a timeout connection error. The client using the TNS protocol to connect to the DB may get redirected to a different DB node listening on an IP address that cannot be accessedd from the network of the client.</p>
+        <p>If you use Oracle Real Application Clusters (RAC) you most likely also use Single Client Access Name (SCAN) addresses to connect to your DB. A SCAN address usually resolves to a number of IPs where each IP uses a dedicated SCAN listener. Now assume that there is no connectivity from your client&rsquo;s network to the SCAN listener&rsquo;s IPs, for example, due to network routing restrictions. However, you can access a node from your client&rsquo;s network that can connect to the SCAN listener&rsquo;s IPs. You setup a reverse proxy on such a node and you provide the SCAN address in the reverse proxy configuration. A client using the TNS protocol to connect to the DB gets redirected to a least utilised DB node with an IP address that cannot be accessed from the network of the client. And this causes a timeout connection error.</p>
 
-<p>The following shows an example of this problem and how you can triage it. Let&rsquo;s say that your DB network is <code>192.168.0.0/16</code>, your client network is <code>10.100.0.0/16</code> and there is no connectivy between the two networks. You use a connection string <code>alice/password1@scan.your-domain.com:1521/service1</code> that works fine when you connect to the DB from the DB network, however, you cannot use the connection string from the client network. The address <code>scan.your-domain.com</code> resolves to <code>192.168.10.11</code>, <code>192.168.10.12</code> and <code>192.168.10.13</code> VIPs. Finally, there is a node with IP <code>172.10.10.1</code> that both networks can access and you setup the nginx reverse proxy on it with the following configuration where IP address in <code>proxy_pass</code> directive is one of the VIPs of the SCAN address.</p>
+<p>The following shows an example of this problem and how you can triage it. Let&rsquo;s say that your DB network is <code>192.168.10.0/24</code>, your client network is <code>10.100.20.0/24</code> and there is no connectivity between the two networks. You use a connection string <code>alice/password1@scan.your-domain.com:1521/service1</code> that works fine when you connect to the DB from the DB network, however, you cannot use the connection string from the client network. The address <code>scan.your-domain.com</code> resolves to <code>192.168.10.11</code>, <code>192.168.10.12</code> and <code>192.168.10.13</code> IPs. Finally, there is a node with IP <code>172.10.10.1</code> that both networks can access and you setup nginx reverse proxy on it with the following configuration.</p>
 
 <pre><code>stream {
     server {
         listen 1521;
-        proxy_pass 192.168.10.1:1521;
+        proxy_pass scan.your-domain.com:1521;
     }
 }
 </code></pre>
 
-<p>The proxy will listen on <code>172.10.10.1:1521</code> and when you connect to the DB using the below command, you get the connection timeout error.</p>
+<p>The proxy will listen on <code>172.10.10.1:1521</code> and when you connect to the DB using the below command, you get the connect timeout error.</p>
 
 <pre><code>sqlplus alice/password1@172.10.10.1:1521/service1
 
@@ -83,7 +83,7 @@ ORA-12170: TNS:Connect timeout occurred
 
 <p>In order to understand what is going on, you first check that you can open the TCP port from the client node, for example, by running <code>telnet 172.10.10.1 1521</code> which works fine.</p>
 
-<p>After that you can enable sqlplus trace logging by adding the following configuration to the <code>sqlnet.ora</code> file that you can place to the default Oracle network and Oracle client directory located in your Oracle home (note that you can also change the location of this directory when you set an environment varialbe <code>TNS_ADMIN</code>).</p>
+<p>After that you enable <code>sqlplus</code> trace logging by adding the following configuration to the <code>sqlnet.ora</code> file that you need to place to the default Oracle network directory (note that you can change the location of this directory when you set an environment variable <code>TNS_ADMIN</code>).</p>
 
 <pre><code>TRACE_LEVEL_CLIENT=USER
 TRACE_FILENO_CLIENT=6
@@ -95,7 +95,7 @@ LOG_DIRECTORY_CLIENT=/home/oracle/sqlplus/logs
 DIAG_ADR_ENABLED=OFF
 </code></pre>
 
-<p>When you connect to the DB now using the sqlplus command, there will be trace logs generated in <code>/home/oracle/sqlplus/logs</code> directory. You can now see that after the initial connection to the SCAN VIP, there is an exchange of <code>NSPTCN</code> and <code>NSPTRD</code> packets which tries to redirect the client to a completely different IP of a DB node (see <a href="https://support.oracle.com/epmos/faces/DocContentDisplay?id=758145.1">reasons of redirect packets</a> for more details). Such node is however not accessible from the client network and you get the connection timeout error.</p>
+<p>When you connect to the DB now using the sqlplus command, there will be trace logs generated in <code>/home/oracle/sqlplus/logs</code> directory. You can now see that after the initial connection to the SCAN IP, there is an exchange of <code>NSPTCN</code> and <code>NSPTRD</code> packets which attempts to redirect the client to an IP of a DB node (see <a href="https://support.oracle.com/epmos/faces/DocContentDisplay?id=758145.1">reasons of redirect packets</a> for more details). Such node is however not accessible from the client network and you get the connect timeout error.</p>
 
 <pre><code>[000001 25-APR-2022 17:01:31:905] nsopen: opening transport...
 [000001 25-APR-2022 17:01:31:905] nttcni: Tcp conn timeout = 60000 (ms)
@@ -137,7 +137,7 @@ DIAG_ADR_ENABLED=OFF
 
 <p>If you now use the IP address of the DB node that the client is trying to redirect to in the nginx proxy configuration (in the example above it is <code>192.168.10.144</code>), all starts working fine as the client does not need to get redirected anymore.</p>
 
-<p>Please note that Oracle Connection Manager (CMAN) provides more sophisiticated option that you should use to setup a proxy for DB connections. The solution provided in this post is using a lightweight nginx configuration that you can easilly setup, however, you loose High Availability features provided by Oracle RAC. From this reason you should only use this in testing or experimental environments.</p>
+<p>Please note that Oracle Connection Manager (CMAN) provides more sophisticated option that you should use to setup a proxy for DB connections. The solution provided in this post is using a lightweight nginx configuration that you can easily setup, however, you loose High Availability features provided by Oracle RAC. From this reason you should only use this in testing or experimental environments.</p>
 
     </section>
 </article>
