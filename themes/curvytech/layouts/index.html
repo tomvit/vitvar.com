@@ -1,5 +1,4 @@
 {{ define "main" }}
-	{{ range first 1 (where .Data.Pages "Section" "post") }}
-		{{ partial "single-post.html" . }}
-	{{ end }}
+	{{ with .GetPage "/home" }}{{ .Content }}{{end}}
 {{ end }}
+
