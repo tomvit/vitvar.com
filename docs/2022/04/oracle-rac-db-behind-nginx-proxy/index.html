@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Tomas Vitvar">
+<meta name="description" content="well-oiled machine">
+<meta name="generator" content="Hugo 0.58.1" />
+<title>Oracle RAC DB Behind Nginx Proxy</title>
+<link rel="shortcut icon" href="/images/favicon.ico">
+
+
+<link rel="stylesheet" href="/css/style.min.css" integrity="">
+
+
+
+
+<link href="/index.xml" rel="alternate" type="application/rss+xml" title="vitvar.com" />
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+    </head>
+<body>
+    <nav>
+	<section class="container">
+	<div class="logo">
+		<a  href="https://vitvar.com"> <h1 class="brand">vitvar.com</h1> </a>
+		<div class="subtitle">
+		<span>well-oiled machine</span>
+		</div>
+	</div>
+	<ul class="navigation-list">
+		
+		
+			<li class=""><a  href='/'>Home</a></li>
+		
+			<li class=""><a  href='/lectures/'>Lectures</a></li>
+		
+			<li class="active"><a  href='/post/'>Posts</a></li>
+		
+	</ul>
+	</section>
+</nav>
+
+    <section id="wrapper">
+        
+        
+	<article class="post">
+    <header>
+        <span class="title">Oracle RAC DB Behind Nginx Proxy</span>
+        <span class="published">
+        April 26, 2022
+        </span>
+    </header>
+    <section id="post-body">
+        <p>If you use Oracle Real Application Clusters (RAC) for your Oracle Database, you most likely also use Single Client Access Name (SCAN) addresses to connect to your DB. The SCAN address usually resolves to a number of VIPs where each VIP uses a dedicated SCAN listener. Now assume that there is no connectivity from your client&rsquo;s network to the SCAN listener&rsquo;s VIPs, for example, due to network routing restrictions. However, you can access a node from your client&rsquo;s network that can connect to the SCAN listener&rsquo;s VIPs. You setup a reverse proxy on such a node and you provide a VIP of one of the the SCAN listeners in the reverse proxy configuration. And it may happen that you get a timeout connection error. The client using the TNS protocol to connect to the DB may get redirected to a different DB node listening on an IP address that cannot be accessedd from the network of the client.</p>
+
+<p>The following shows an example of this problem and how you can triage it. Let&rsquo;s say that your DB network is <code>192.168.0.0/16</code>, your client network is <code>10.100.0.0/16</code> and there is no connectivy between the two networks. You use a connection string <code>alice/password1@scan.your-domain.com:1521/service1</code> that works fine when you connect to the DB from the DB network, however, you cannot use the connection string from the client network. The address <code>scan.your-domain.com</code> resolves to <code>192.168.10.11</code>, <code>192.168.10.12</code> and <code>192.168.10.13</code> VIPs. Finally, there is a node with IP <code>172.10.10.1</code> that both networks can access and you setup the nginx reverse proxy on it with the following configuration where IP address in <code>proxy_pass</code> directive is one of the VIPs of the SCAN address.</p>
+
+<pre><code>stream {
+    server {
+        listen 1521;
+        proxy_pass 192.168.10.1:1521;
+    }
+}
+</code></pre>
+
+<p>The proxy will listen on <code>172.10.10.1:1521</code> and when you connect to the DB using the below command, you get the connection timeout error.</p>
+
+<pre><code>sqlplus alice/password1@172.10.10.1:1521/service1
+
+SQL*Plus: Release 21.0.0.0.0 - Production on Mon Apr 25 17:20:45 2022
+Version 21.5.0.0.0
+
+Copyright (c) 1982, 2021, Oracle.  All rights reserved.
+
+ERROR:
+ORA-12170: TNS:Connect timeout occurred
+</code></pre>
+
+<p>In order to understand what is going on, you first check that you can open the TCP port from the client node, for example, by running <code>telnet 172.10.10.1 1521</code> which works fine.</p>
+
+<p>After that you can enable sqlplus trace logging by adding the following configuration to the <code>sqlnet.ora</code> file that you can place to the default Oracle network and Oracle client directory located in your Oracle home (note that you can also change the location of this directory when you set an environment varialbe <code>TNS_ADMIN</code>).</p>
+
+<pre><code>TRACE_LEVEL_CLIENT=USER
+TRACE_FILENO_CLIENT=6
+TRACE_FILELEN_CLIENT=51200
+TRACE_UNIQUE_CLIENT=ON
+TRACE_TIMESTAMP_CLIENT=ON
+TRACE_DIRECTORY_CLIENT=/home/oracle/sqlplus/logs
+LOG_DIRECTORY_CLIENT=/home/oracle/sqlplus/logs
+DIAG_ADR_ENABLED=OFF
+</code></pre>
+
+<p>When you connect to the DB now using the sqlplus command, there will be trace logs generated in <code>/home/oracle/sqlplus/logs</code> directory. You can now see that after the initial connection to the SCAN VIP, there is an exchange of <code>NSPTCN</code> and <code>NSPTRD</code> packets which tries to redirect the client to a completely different IP of a DB node (see <a href="https://support.oracle.com/epmos/faces/DocContentDisplay?id=758145.1">reasons of redirect packets</a> for more details). Such node is however not accessible from the client network and you get the connection timeout error.</p>
+
+<pre><code>[000001 25-APR-2022 17:01:31:905] nsopen: opening transport...
+[000001 25-APR-2022 17:01:31:905] nttcni: Tcp conn timeout = 60000 (ms)
+[000001 25-APR-2022 17:01:31:905] nttcni: trying to connect to socket 9.
+[000001 25-APR-2022 17:01:31:905] nttcni: connected on source ipaddr 172.10.10.1 port 59318
+[000001 25-APR-2022 17:01:31:906] nttctl: set TCP_NODELAY on 9
+[000001 25-APR-2022 17:01:31:906] nsopen: transport is open
+[000001 25-APR-2022 17:01:31:906] nsnainit: inf-&gt;nsinfflg[0]: 0x41 inf-&gt;nsinfflg[1]: 0x41
+[000001 25-APR-2022 17:01:31:906] nsopen: global context check-in (to slot 0) complete
+[000001 25-APR-2022 17:01:31:906] nscon: doing connect handshake...
+[000001 25-APR-2022 17:01:31:906] nscon: connect id = 0x733c
+[000001 25-APR-2022 17:01:31:906] nscon: sending NSPTCN packet
+[000001 25-APR-2022 17:01:31:906] nscon: got NSPTRD packet
+[000001 25-APR-2022 17:01:31:906] nscon: recving connect data
+[000001 25-APR-2022 17:01:31:906] nsdo: 305 bytes from NS buffer
+[000001 25-APR-2022 17:01:31:906] nscall: redirected
+[000001 25-APR-2022 17:01:31:906] nstimarmed: no timer allocated
+[000001 25-APR-2022 17:01:31:906] nsclose: closing transport
+[000001 25-APR-2022 17:01:31:906] nsclose: global context check-out (from slot 0) complete
+[000001 25-APR-2022 17:01:31:906] nscall: connecting...
+[000001 25-APR-2022 17:01:31:906] nsc2addr: (ADDRESS=(PROTOCOL=TCP)(HOST=192.168.10.144)(PORT=1521))
+[000001 25-APR-2022 17:01:31:906] nttbnd2addr: using host IP address: 192.168.10.144
+[000001 25-APR-2022 17:01:31:906] nsopen: opening transport...
+[000001 25-APR-2022 17:01:31:906] nttcni: Tcp conn timeout = 60000 (ms)
+[000001 25-APR-2022 17:01:31:906] nttcni: trying to connect to socket 9.
+[000001 25-APR-2022 17:02:31:960] nttcni: TImeout or Error on this socket
+[000001 25-APR-2022 17:02:31:960] nserror: nsres: id=0, op=65, ns=12535, ns2=12560; nt[0]=505, nt[1]=0, nt[2]=0; ora[0]=0, ora[1]=0, ora[2]=0
+[000001 25-APR-2022 17:02:31:960] nsopen: unable to open transport
+[000001 25-APR-2022 17:02:31:960] nscall: connecting...
+[000001 25-APR-2022 17:02:31:961] nioqper:  error from nscall
+[000001 25-APR-2022 17:02:31:961] nioqper:    ns main err code: 12535
+[000001 25-APR-2022 17:02:31:961] nioqper:    ns (2)  err code: 12560
+[000001 25-APR-2022 17:02:31:961] nioqper:    nt main err code: 505
+[000001 25-APR-2022 17:02:31:961] nioqper:    nt (2)  err code: 0
+[000001 25-APR-2022 17:02:31:961] nioqper:    nt OS   err code: 0
+[000001 25-APR-2022 17:02:31:961] niqme: reporting NS-12535 error as ORA-12535
+[000001 25-APR-2022 17:02:31:961] niotns: Couldn't connect, returning 12170
+</code></pre>
+
+<p>If you now use the IP address of the DB node that the client is trying to redirect to in the nginx proxy configuration (in the example above it is <code>192.168.10.144</code>), all starts working fine as the client does not need to get redirected anymore.</p>
+
+<p>Please note that Oracle Connection Manager (CMAN) provides more sophisiticated option that you should use to setup a proxy for DB connections. The solution provided in this post is using a lightweight nginx configuration that you can easilly setup, however, you loose High Availability features provided by Oracle RAC. From this reason you should only use this in testing or experimental environments.</p>
+
+    </section>
+</article>
+
+
+
+<div id="disqus_thread"></div>
+<a id="show-disqus" style="padding-top: -100px" href="#">show comments</a> 
+
+<script type="text/javascript">
+  var disqus_config = function () {
+          this.page.identifier = '\/2022\/04\/oracle-rac-db-behind-nginx-proxy\/';
+  };    
+
+  $("#show-disqus").click((e)=>{
+    e.preventDefault();
+    $("#show-disqus").remove();
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'blog-tvitvar';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    $("#disqus_thread").css('display', 'block');  
+  })
+</script>
+
+
+
+
+
+
+        <footer id="footer">
+    <section class="container">
+      <div>
+        <p class="small">
+        Except where otherwise noted, content on this site is licensed under
+        Creative Commons Attribution-ShareAlike 4.0 License.
+        </p>
+      </div>
+      <div class="links">
+        <a href="/index.xml"><div class="icon-feed">&nbsp;</div></a>
+        <a href="https://cz.linkedin.com/in/vitvar"><div class="icon-linkedin">&nbsp;</div></a>
+        <a href="https://twitter.com/tomasvitvar"><div class="icon-twitter">&nbsp;</div></a>
+        <a href="https://github.com/tomvit"><div class="icon-github">&nbsp;</div></a>
+      </div>
+    </section>
+</footer>
+    </section>
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-396530-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+</body>
+</html>

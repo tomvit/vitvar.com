@@ -9,10 +9,19 @@
     <managingEditor>tomas@vitvar.com (Tomas Vitvar)</managingEditor>
     <webMaster>tomas@vitvar.com (Tomas Vitvar)</webMaster>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Mon, 08 Jul 2019 10:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 26 Apr 2022 10:24:00 +0100</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Oracle RAC DB Behind Nginx Proxy</title>
+      <link>/2022/04/oracle-rac-db-behind-nginx-proxy/</link>
+      <pubDate>Tue, 26 Apr 2022 10:24:00 +0100</pubDate>
+      <author>tomas@vitvar.com (Tomas Vitvar)</author>
+      <guid>/2022/04/oracle-rac-db-behind-nginx-proxy/</guid>
+      <description>If you use Oracle Real Application Clusters (RAC) for your Oracle Database, you most likely also use Single Client Access Name (SCAN) addresses to connect to your DB. The SCAN address usually resolves to a number of VIPs where each VIP uses a dedicated SCAN listener. Now assume that there is no connectivity from your client&amp;rsquo;s network to the SCAN listener&amp;rsquo;s VIPs, for example, due to network routing restrictions. However, you can access a node from your client&amp;rsquo;s network that can connect to the SCAN listener&amp;rsquo;s VIPs.</description>
+    </item>
     
     <item>
       <title>SOA Service Multithreading Problem</title>

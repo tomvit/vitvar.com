@@ -8,7 +8,7 @@
     <managingEditor>tomas@vitvar.com (Tomas Vitvar)</managingEditor>
     <webMaster>tomas@vitvar.com (Tomas Vitvar)</webMaster>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Mon, 08 Jul 2019 10:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 26 Apr 2022 10:24:00 +0100</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
@@ -16,7 +16,7 @@
     <item>
       <title>Posts</title>
       <link>/post/</link>
-      <pubDate>Mon, 08 Jul 2019 10:00:00 +0100</pubDate>
+      <pubDate>Tue, 26 Apr 2022 10:24:00 +0100</pubDate>
       <author>tomas@vitvar.com (Tomas Vitvar)</author>
       <guid>/post/</guid>
       <description></description>
