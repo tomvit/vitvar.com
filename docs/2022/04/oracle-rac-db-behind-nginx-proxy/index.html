@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Tomas Vitvar">
-<meta name="description" content="well-oiled machine">
+<meta name="description" content="handicraft material">
 <meta name="generator" content="Hugo 0.58.1" />
 <title>Oracle RAC DB Behind Nginx Proxy</title>
 <link rel="shortcut icon" href="/images/favicon.ico">
@@ -29,7 +29,7 @@
 	<div class="logo">
 		<a  href="https://vitvar.com"> <h1 class="brand">vitvar.com</h1> </a>
 		<div class="subtitle">
-		<span>well-oiled machine</span>
+		<span>handicraft material</span>
 		</div>
 	</div>
 	<ul class="navigation-list">
@@ -58,7 +58,11 @@
     <section id="post-body">
         <p>If you use Oracle Real Application Clusters (RAC) you most likely also use Single Client Access Name (SCAN) addresses to connect to your DB. A SCAN address usually resolves to a number of IPs where each IP uses a dedicated SCAN listener. Now assume that there is no connectivity from your client&rsquo;s network to the SCAN listener&rsquo;s IPs, for example, due to network routing restrictions. However, you can access a node from your client&rsquo;s network that can connect to the SCAN listener&rsquo;s IPs. You setup a reverse proxy on such a node and you provide the SCAN address in the reverse proxy configuration. A client using the TNS protocol to connect to the DB gets redirected to a least utilised DB node with an IP address that cannot be accessed from the network of the client. And this causes a timeout connection error.</p>
 
-<p>The following shows an example of this problem and how you can triage it. Let&rsquo;s say that your DB network is <code>192.168.10.0/24</code>, your client network is <code>10.100.20.0/24</code> and there is no connectivity between the two networks. You use a connection string <code>alice/password1@scan.your-domain.com:1521/service1</code> that works fine when you connect to the DB from the DB network, however, you cannot use the connection string from the client network. The address <code>scan.your-domain.com</code> resolves to <code>192.168.10.11</code>, <code>192.168.10.12</code> and <code>192.168.10.13</code> IPs. Finally, there is a node with IP <code>172.10.10.1</code> that both networks can access and you setup nginx reverse proxy on it with the following configuration.</p>
+<p>The following figure shows an example of this problem and how you can triage it. Let&rsquo;s say that your DB network is <code>192.168.10.0/24</code>, your client network is <code>10.100.20.0/24</code> and there is no connectivity between the two networks. You use a connection string <code>alice/password1@scan.your-domain.com:1521/service1</code> that works fine when you connect to the DB from the DB network, however, you cannot use the connection string from the client network. The address <code>scan.your-domain.com</code> resolves to <code>192.168.10.11</code>, <code>192.168.10.12</code> and <code>192.168.10.13</code> IPs. Finally, there is a node with IP <code>172.10.10.1</code> that both networks can access.</p>
+
+<iframe id="swimlanes" style="border:none; width:100%; height:600px" scrolling="no" src="/swimlanes/embeded.html#dVJdb9owFH3Pr7iPEAkTR93WITGtg0mbNDURyeMk5No3xVqwqa8p9N/vugVBN3iLTs49Oh/OMnrqN/2WQBZCFoUoC1GMyxsYfQH3aN0e5KdSvP4TcgLaO4c6wvLwYb1bUgzWPS6zzPmIEzjqETpDoODEhIBPW6QI0R+0N8HvX2BLfH/Oe1OEPFe91TjeKKKdD0b+/kpaOfHit2Fk/FpZJ7RfT+SHUo4JwzOTZZ6zkX+NpzTpdCRBfmb04+0rfAp0NH9uKyD5/hkJ4gqhmd3dgzKGQUr+lYPOBs7yswbfnSi9pYgOAxMMdD7sVDBvCpd7sFFk2SVrVwa4b+p2Mb8W8eKUp6NrU+9h/g2cNwjvTdzwrSNdptwTGNzN54vvTTMd1IuqrWbVr2k7q4eDH1XTTvP8/WGeDwd1tWinaZzhEI4Ft9zEMT6nZhAeEmJs4HLQpE7+1wJ16LC36GJaxhoehqtUYGzXYUiww8jP5A/sVlavwBIkdaU1T2YfeoQu+PW5zIEv2Nxf#dVJNxf"></iframe>
+
+<p>You setup the nginx configuration is as follows.</p>
 
 <pre><code>stream {
     server {
