@@ -1,2 +1,16 @@
-
-<iframe id="swimlanes" style="border:none; width:{{ if .Get "width" }}{{ .Get "width" }}{{ else }}100%{{ end }}; height:{{ if .Get "height" }}{{ .Get "height" }}{{ else }}100%{{ end }}" scrolling="no" src="/swimlanes/embeded.html#{{ .Inner | base64Encode }}"></iframe>
+<script>
+  window.addEventListener("message", function(e) {
+      var i = e.data.split(":")[1];
+      var h = e.data.split(":")[2];
+      if (e.data.split(":")[0] == "swimlanes-io" && i && h) {
+        $("#"+i).css("height", h + "px")
+        //document.getElementById(i).setAttribute("style","height:" + h + "px");
+      }
+  }, false);
+</script>
+<div id="div_{{ if .Get "id" }}{{ .Get "id" }}{{ else }}swimlanes{{ end }}" style="margin-bottom: 20px">
+  <iframe id="{{ if .Get "id" }}{{ .Get "id" }}{{ else }}swimlanes{{ end }}" 
+    style="border:none; width:100%; height: 100%" scrolling="no" 
+    src="/swimlanes/embeded.html#{{ .Inner | base64Encode }}#div_{{ if .Get "id" }}{{ .Get "id" }}{{ else }}swimlanes{{ end }}">
+  </iframe>
+</div>
