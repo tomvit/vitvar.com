@@ -11,7 +11,7 @@ I often need to embed a simple sequence diagram on a page and I came across [swi
 
 To do this, I developed a [Hugo shortcode for swimlanes](https://github.com/tomvit/vitvar.com/blob/master/themes/curvytech/layouts/shortcodes/swimlanes.html) and slightly altered [the swimlanes code](https://github.com/tomvit/vitvar.com/tree/master/themes/curvytech/static/swimlanes) to be able to embed a diagram using a base64 string. I also modified the diagram style to match my Hugo theme. 
 
-The following example shows how I use in Hugo.   
+The following example shows how I use it in Hugo.   
 
 ```
 {{</* swimlanes */>}}
