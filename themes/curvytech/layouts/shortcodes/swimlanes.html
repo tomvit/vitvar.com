@@ -1,0 +1,2 @@
+
+<iframe id="swimlanes" style="border:none; width:{{ if .Get "width" }}{{ .Get "width" }}{{ else }}100%{{ end }}; height:{{ if .Get "height" }}{{ .Get "height" }}{{ else }}100%{{ end }}" scrolling="no" src="/swimlanes/embeded.html#{{ .Inner | base64Encode }}"></iframe>

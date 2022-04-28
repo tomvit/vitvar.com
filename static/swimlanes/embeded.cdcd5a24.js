@@ -10014,7 +10014,8 @@
       var state = window.location.href.split("#")[1];
       var divId = window.location.href.split("#")[2];
       var options = window.location.href.split("#")[3];
-      var text = decode(state);
+      var text = atob(decodeURIComponent(state));
+      //var text = decode(state);
       text = stripLeadingWhitespace(text);
       swimlanes.attributes = parser(text);
       diagram = render(swimlanes, templates);
