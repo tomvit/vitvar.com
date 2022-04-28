@@ -7,13 +7,31 @@ draft: false
 disqus: true
 ---
 
-If you use Oracle Real Application Clusters (RAC) you most likely also use Single Client Access Name (SCAN) addresses to connect to your DB. A SCAN address usually resolves to a number of IPs where each IP uses a dedicated SCAN listener. Now assume that there is no connectivity from your client's network to the SCAN listener's IPs, for example, due to network routing restrictions. However, you can access a node from your client's network that can connect to the SCAN listener's IPs. You setup a reverse proxy on such a node and you provide the SCAN address in the reverse proxy configuration. A client using the TNS protocol to connect to the DB gets redirected to a least utilised DB node with an IP address that cannot be accessed from the network of the client. And this causes a timeout connection error.
+If you use Oracle Real Application Clusters (RAC) you most likely also use Single Client Access Name (SCAN) addresses to connect to your DB. A SCAN address usually resolves to a number of IPs where each IP uses a dedicated SCAN listener. Now assume that there is no connectivity from your client network to the DB network, for example, due to network routing restrictions. However, you can access a node that has such connectivity. You setup a reverse proxy on this node and you provide the SCAN address in the reverse proxy configuration. A client using the TNS protocol to connect to the DB then gets redirected to a least utilised DB node with an IP address that cannot be accessed from the network of the client. And this causes a timeout connection error.
 
 The following figure shows an example of this problem and how you can triage it. Let's say that your DB network is `192.168.10.0/24`, your client network is `10.100.20.0/24` and there is no connectivity between the two networks. You use a connection string `alice/password1@scan.your-domain.com:1521/service1` that works fine when you connect to the DB from the DB network, however, you cannot use the connection string from the client network. The address `scan.your-domain.com` resolves to `192.168.10.11`, `192.168.10.12` and `192.168.10.13` IPs. Finally, there is a node with IP `172.10.10.1` that both networks can access. 
 
-<iframe id="swimlanes" style="border:none; width:100%; height:600px" scrolling="no" src="/swimlanes/embeded.html#dVJdb9owFH3Pr7iPEAkTR93WITGtg0mbNDURyeMk5No3xVqwqa8p9N/vugVBN3iLTs49Oh/OMnrqN/2WQBZCFoUoC1GMyxsYfQH3aN0e5KdSvP4TcgLaO4c6wvLwYb1bUgzWPS6zzPmIEzjqETpDoODEhIBPW6QI0R+0N8HvX2BLfH/Oe1OEPFe91TjeKKKdD0b+/kpaOfHit2Fk/FpZJ7RfT+SHUo4JwzOTZZ6zkX+NpzTpdCRBfmb04+0rfAp0NH9uKyD5/hkJ4gqhmd3dgzKGQUr+lYPOBs7yswbfnSi9pYgOAxMMdD7sVDBvCpd7sFFk2SVrVwa4b+p2Mb8W8eKUp6NrU+9h/g2cNwjvTdzwrSNdptwTGNzN54vvTTMd1IuqrWbVr2k7q4eDH1XTTvP8/WGeDwd1tWinaZzhEI4Ft9zEMT6nZhAeEmJs4HLQpE7+1wJ16LC36GJaxhoehqtUYGzXYUiww8jP5A/sVlavwBIkdaU1T2YfeoQu+PW5zIEv2Nxf#dVJNxf"></iframe>
+{{% swimlanes height="650px" %}}
+sqlplus 10.100.20.0/24 -> nginx 172.10.10.1: connect _connection_string_
 
-You setup the nginx configuration is as follows.
+note: sqlplus sends a connection request **alice/password1\@scan.your-domain.com:1521/service1**
+
+nginx 172.10.10.1 -> scan-1 192.168.10.11: connect
+
+note: The proxy resolves the SCAN address to an IP of the SCAN listener and forwards the request to it.
+
+scan-1 192.168.10.11 -> nginx 172.10.10.1: NSPTRD
+
+note: The SCAN listener sends a redirection packet with a DB node to redirect the request to.
+
+nginx 172.10.10.1 -> sqlplus 10.100.20.0/24: NSPTRD
+
+sqlplus 10.100.20.0/24 -x DB node 1 192.168.10.144: nsc2addr: (ADDRESS=(PROTOCOL=TCP)(HOST=**192.168.10.144**)(PORT=1521)) 
+
+note: The request cannot be redirected to **192.168.10.144** as the client resides on a different network which is not accessible from the client network.
+{{% /swimlanes %}}
+
+You setup the nginx configuration as follows.
 
 ```
 stream {
@@ -38,9 +56,7 @@ ERROR:
 ORA-12170: TNS:Connect timeout occurred
 ```
 
-In order to understand what is going on, you first check that you can open the TCP port from the client node, for example, by running `telnet 172.10.10.1 1521` which works fine. 
-
-After that you enable `sqlplus` trace logging by adding the following configuration to the `sqlnet.ora` file that you need to place to the default Oracle network directory (note that you can change the location of this directory when you set an environment variable `TNS_ADMIN`). 
+In order to understand what is going on, you first check that you can open the TCP port from the client node, for example, by running `telnet 172.10.10.1 1521` which works fine. After that you enable `sqlplus` trace logging by adding the following configuration to the `sqlnet.ora` file that you need to place to the default Oracle network directory (note that you can change the location of this directory when you set an environment variable `TNS_ADMIN`). 
 
 ```
 TRACE_LEVEL_CLIENT=USER

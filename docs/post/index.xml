@@ -20,7 +20,7 @@
       <pubDate>Tue, 26 Apr 2022 10:24:00 +0100</pubDate>
       <author>tomas@vitvar.com (Tomas Vitvar)</author>
       <guid>/2022/04/oracle-rac-db-behind-nginx-proxy/</guid>
-      <description>If you use Oracle Real Application Clusters (RAC) you most likely also use Single Client Access Name (SCAN) addresses to connect to your DB. A SCAN address usually resolves to a number of IPs where each IP uses a dedicated SCAN listener. Now assume that there is no connectivity from your client&amp;rsquo;s network to the SCAN listener&amp;rsquo;s IPs, for example, due to network routing restrictions. However, you can access a node from your client&amp;rsquo;s network that can connect to the SCAN listener&amp;rsquo;s IPs.</description>
+      <description>If you use Oracle Real Application Clusters (RAC) you most likely also use Single Client Access Name (SCAN) addresses to connect to your DB. A SCAN address usually resolves to a number of IPs where each IP uses a dedicated SCAN listener. Now assume that there is no connectivity from your client network to the DB network, for example, due to network routing restrictions. However, you can access a node that has such connectivity.</description>
     </item>
     
     <item>
