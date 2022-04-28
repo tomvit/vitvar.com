@@ -24,15 +24,6 @@
     </item>
     
     <item>
-      <title>Inline swimlanes.io declarations in Hugo</title>
-      <link>/2022/04/inline-swimlanes-io-declaration-hugo/</link>
-      <pubDate>Wed, 27 Apr 2022 18:00:00 +0100</pubDate>
-      <author>tomas@vitvar.com (Tomas Vitvar)</author>
-      <guid>/2022/04/inline-swimlanes-io-declaration-hugo/</guid>
-      <description>I often need to embed a simple sequence diagram on a page and I came across swimlanes.io which does exactly what I need. You can define a sequence diagram, download an image or embed a diagram into a page. I like the simplicity of swimlanes.io language, however, I sometimes need to make a slight modifications to my sequence diagram, for example, highlighting a specific part of it by changing a color of a line, etc.</description>
-    </item>
-    
-    <item>
       <title>Oracle RAC DB Behind Nginx Proxy</title>
       <link>/2022/04/oracle-rac-db-behind-nginx-proxy/</link>
       <pubDate>Tue, 26 Apr 2022 10:24:00 +0100</pubDate>
