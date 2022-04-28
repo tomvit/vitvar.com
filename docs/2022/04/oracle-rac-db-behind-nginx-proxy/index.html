@@ -60,7 +60,29 @@
 
 <p>The following figure shows an example of this problem and how you can triage it. Let&rsquo;s say that your DB network is <code>192.168.10.0/24</code>, your client network is <code>10.100.20.0/24</code> and there is no connectivity between the two networks. You use a connection string <code>alice/password1@scan.your-domain.com:1521/service1</code> that works fine when you connect to the DB from the DB network, however, you cannot use the connection string from the client network. The address <code>scan.your-domain.com</code> resolves to <code>192.168.10.11</code>, <code>192.168.10.12</code> and <code>192.168.10.13</code> IPs. Finally, there is a node with IP <code>172.10.10.1</code> that both networks can access.</p>
 
-<iframe id="swimlanes" style="border:none; width:100%; height:650px" scrolling="no" src="/swimlanes/embeded.html#CnNxbHBsdXMgMTAuMTAwLjIwLjAvMjQgLT4gbmdpbnggMTcyLjEwLjEwLjE6IGNvbm5lY3QgX2Nvbm5lY3Rpb25fc3RyaW5nXwoKbm90ZTogc3FscGx1cyBzZW5kcyBhIGNvbm5lY3Rpb24gcmVxdWVzdCAqKmFsaWNlL3Bhc3N3b3JkMVxAc2Nhbi55b3VyLWRvbWFpbi5jb206MTUyMS9zZXJ2aWNlMSoqCgpuZ2lueCAxNzIuMTAuMTAuMSAtPiBzY2FuLTEgMTkyLjE2OC4xMC4xMTogY29ubmVjdAoKbm90ZTogVGhlIHByb3h5IHJlc29sdmVzIHRoZSBTQ0FOIGFkZHJlc3MgdG8gYW4gSVAgb2YgdGhlIFNDQU4gbGlzdGVuZXIgYW5kIGZvcndhcmRzIHRoZSByZXF1ZXN0IHRvIGl0LgoKc2Nhbi0xIDE5Mi4xNjguMTAuMTEgLT4gbmdpbnggMTcyLjEwLjEwLjE6IE5TUFRSRAoKbm90ZTogVGhlIFNDQU4gbGlzdGVuZXIgc2VuZHMgYSByZWRpcmVjdGlvbiBwYWNrZXQgd2l0aCBhIERCIG5vZGUgdG8gcmVkaXJlY3QgdGhlIHJlcXVlc3QgdG8uCgpuZ2lueCAxNzIuMTAuMTAuMSAtPiBzcWxwbHVzIDEwLjEwMC4yMC4wLzI0OiBOU1BUUkQKCnNxbHBsdXMgMTAuMTAwLjIwLjAvMjQgLXggREIgbm9kZSAxIDE5Mi4xNjguMTAuMTQ0OiBuc2MyYWRkcjogKEFERFJFU1M9KFBST1RPQ09MPVRDUCkoSE9TVD0qKjE5Mi4xNjguMTAuMTQ0KiopKFBPUlQ9MTUyMSkpIAoKbm90ZTogVGhlIHJlcXVlc3QgY2Fubm90IGJlIHJlZGlyZWN0ZWQgdG8gKioxOTIuMTY4LjEwLjE0NCoqIGFzIHRoZSBjbGllbnQgcmVzaWRlcyBvbiBhIGRpZmZlcmVudCBuZXR3b3JrIHdoaWNoIGlzIG5vdCBhY2Nlc3NpYmxlIGZyb20gdGhlIGNsaWVudCBuZXR3b3JrLgo%3d"></iframe>
+<script>
+  window.addEventListener("message", function(e) {
+      var i = e.data.split(":")[1];
+      var h = e.data.split(":")[2];
+      if (e.data.split(":")[0] == "swimlanes-io" && i && h) {
+        $("#"+i).css("height", h + "px")
+      }
+  }, false);
+</script>
+<div id="div_swimlanes" style="margin-bottom: 20px">
+  <iframe id="swimlanes" 
+    style="border:none; width:100%; height: 100%" scrolling="no" 
+    src="/swimlanes/embeded.html#CgojdGl0bGU6IE9yYWNsZSBSQUMgYmVoaW5kIG5naW54IHByb3h5CgpzcWxwbHVzIDEwLjEwMC4yMC4wLzI0IC0%2bIG5naW54IDE3Mi4xMC4xMC4xOiBjb25uZWN0IF9jb25uZWN0aW9uX3N0cmluZ18KCm5vdGU6IHNxbHBsdXMgc2VuZHMgYSBjb25uZWN0aW9uIHJlcXVlc3QgKiphbGljZS9wYXNzd29yZDFcQHNjYW4ueW91ci1kb21haW4uY29tOjE1MjEvc2VydmljZTEqKgoKbmdpbnggMTcyLjEwLjEwLjEgLT4gc2Nhbi0xIDE5Mi4xNjguMTAuMTE6IGNvbm5lY3QKCm5vdGU6IFRoZSBwcm94eSByZXNvbHZlcyB0aGUgU0NBTiBhZGRyZXNzIHRvIGFuIElQIG9mIHRoZSBTQ0FOIGxpc3RlbmVyIAphbmQgZm9yd2FyZHMgdGhlIHJlcXVlc3QgdG8gaXQuCgpzY2FuLTEgMTkyLjE2OC4xMC4xMSAtPiBuZ2lueCAxNzIuMTAuMTAuMTogTlNQVFJECgpub3RlOiBUaGUgU0NBTiBsaXN0ZW5lciBzZW5kcyBhIHBhY2tldCB3aXRoIGEgREIgbm9kZSBJUCBhZGRyZXNzIHRvIApyZWRpcmVjdCB0aGUgcmVxdWVzdCB0by4KCm5naW54IDE3Mi4xMC4xMC4xIC0%2bIHNxbHBsdXMgMTAuMTAwLjIwLjAvMjQ6IE5TUFRSRAoKc3FscGx1cyAxMC4xMDAuMjAuMC8yNCAteCBEQiBub2RlIDEgMTkyLjE2OC4xMC4xNDQ6IG5zYzJhZGRyOiAoQUREUkVTUz0oUFJPVE9DT0w9VENQKShIT1NUPSoqMTkyLjE2OC4xMC4xNDQqKikoUE9SVD0xNTIxKSkgCgpub3RlOiBUaGUgcmVxdWVzdCBjYW5ub3QgYmUgcmVkaXJlY3RlZCB0byAqKjE5Mi4xNjguMTAuMTQ0KiogYXMgdGhlIApjbGllbnQgcmVzaWRlcyBvbiBhIGRpZmZlcmVudCBuZXR3b3JrIHdoaWNoIGlzIG5vdCBhY2Nlc3NpYmxlIGZyb20gdGhlIGNsaWVudCBuZXR3b3JrLgoK#div_swimlanes">
+  </iframe>
+</div>
+
+<script>
+  document.getElementById('swimlanes').onload = ()=>{
+    var c = $("#swimlanes").contents()
+    c.find('#element_8 polyline').css("stroke","red")
+    c.find('#element_8 div').css("border-color","red")
+  }
+</script>
 
 <p>You setup the nginx configuration as follows.</p>
 

@@ -12,24 +12,39 @@ If you use Oracle Real Application Clusters (RAC) you most likely also use Singl
 The following figure shows an example of this problem and how you can triage it. Let's say that your DB network is `192.168.10.0/24`, your client network is `10.100.20.0/24` and there is no connectivity between the two networks. You use a connection string `alice/password1@scan.your-domain.com:1521/service1` that works fine when you connect to the DB from the DB network, however, you cannot use the connection string from the client network. The address `scan.your-domain.com` resolves to `192.168.10.11`, `192.168.10.12` and `192.168.10.13` IPs. Finally, there is a node with IP `172.10.10.1` that both networks can access. 
 
 {{% swimlanes height="650px" %}}
+
+#title: Oracle RAC behind nginx proxy
+
 sqlplus 10.100.20.0/24 -> nginx 172.10.10.1: connect _connection_string_
 
 note: sqlplus sends a connection request **alice/password1\@scan.your-domain.com:1521/service1**
 
 nginx 172.10.10.1 -> scan-1 192.168.10.11: connect
 
-note: The proxy resolves the SCAN address to an IP of the SCAN listener and forwards the request to it.
+note: The proxy resolves the SCAN address to an IP of the SCAN listener 
+and forwards the request to it.
 
 scan-1 192.168.10.11 -> nginx 172.10.10.1: NSPTRD
 
-note: The SCAN listener sends a redirection packet with a DB node to redirect the request to.
+note: The SCAN listener sends a packet with a DB node IP address to 
+redirect the request to.
 
 nginx 172.10.10.1 -> sqlplus 10.100.20.0/24: NSPTRD
 
 sqlplus 10.100.20.0/24 -x DB node 1 192.168.10.144: nsc2addr: (ADDRESS=(PROTOCOL=TCP)(HOST=**192.168.10.144**)(PORT=1521)) 
 
-note: The request cannot be redirected to **192.168.10.144** as the client resides on a different network which is not accessible from the client network.
+note: The request cannot be redirected to **192.168.10.144** as the 
+client resides on a different network which is not accessible from the client network.
+
 {{% /swimlanes %}}
+
+<script>
+  document.getElementById('swimlanes').onload = ()=>{
+    var c = $("#swimlanes").contents()
+    c.find('#element_8 polyline').css("stroke","red")
+    c.find('#element_8 div').css("border-color","red")
+  }
+</script>
 
 You setup the nginx configuration as follows.
 
