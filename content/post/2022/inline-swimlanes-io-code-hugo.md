@@ -1,13 +1,13 @@
 ---
-title: "Inline swimlanes.io declarations in Hugo"
+title: "Inline swimlanes.io code in Hugo"
 date: 2022-04-27T18:00:00+01:00
 description: "swimlanes.io, sequence diagrams, hugo, shortcode"
-slug: "inline-swimlanes-io-declaration-hugo"
+slug: "inline-swimlanes-io-code-hugo"
 draft: false
 disqus: true
 ---
 
-I often need to embed a simple sequence diagram on a page and I came across [swimlanes.io](https://swimlanes.io) which does exactly what I need. You can define a sequence diagram, download an image or embed a diagram into a page. I like the simplicity of swimlanes.io language, however, I sometimes need to make a slight modifications to my sequence diagram, for example, highlighting a specific part of it by changing a color of a line, etc. And I want to write a code of my sequence diagram directly in Hugo's page without going to swimlanes.io to change it.
+I often need to embed a simple sequence diagram into a page and I came across [swimlanes.io](https://swimlanes.io) which does exactly what I need. You can define a sequence diagram, download an image or embed a diagram into a page. I like the simplicity of it, however, I sometimes need to make a slight modifications to my sequence diagram, for example, highlighting a specific part of it by changing a color of a line, etc. And I want to write a code of my sequence diagram directly in Hugo's page without going to swimlanes.io to change it.
 
 To do this, I developed a [Hugo shortcode for swimlanes](https://github.com/tomvit/vitvar.com/blob/master/themes/curvytech/layouts/shortcodes/swimlanes.html) and slightly altered [the swimlanes code](https://github.com/tomvit/vitvar.com/tree/master/themes/curvytech/static/swimlanes) to be able to embed a diagram using a base64 string. I also modified the diagram style to match my Hugo theme. 
 
