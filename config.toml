@@ -43,3 +43,8 @@ disqusShortname = "blog-tvitvar"
     name = "Posts"
     weight = 3
     url = "/post/"
+
+[[menu.main]]
+    name = "About"
+    weight = 4
+    url = "/about/"

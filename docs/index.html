@@ -42,6 +42,8 @@
 		
 			<li class=""><a  href='/post/'>Posts</a></li>
 		
+			<li class=""><a  href='/about/'>About</a></li>
+		
 	</ul>
 	</section>
 </nav>
@@ -49,16 +51,60 @@
     <section id="wrapper">
         
         
-	<p>I am Tomas Vitvar. I have been working in computer software industry for over 25 years currently with Oracle as a Technology Architect Director for large-scale integration and cloud projects. I also hold an associate professor position at the Czech Technical University in Prague where I look after Web engineering program as a lecturer and a chair in <a href="/lectures/">two post-graduate courses</a> on middleware, integration, and infrastructure for the Web.</p>
+	
+  <p>I am Tomas Vitvar. I have been working in computer software industry for over 25 years currently with Oracle as a Technology Architect Director for large-scale integration and cloud projects. I also hold an associate professor position at the Czech Technical University in Prague where I look after Web engineering program as a lecturer and a chair in <a href="/lectures/">two post-graduate courses</a> on middleware, integration, and infrastructure for the Web. <a href="/about/">Read More…</a></p>
 
-<p>Before I joined Oracle, I spent much time in research when working in DERI (currently <a href="https://www.insight-centre.org/">Insight</a>) at <a href="https://www.nuigalway.ie/">National University of Ireland</a> and <a href="https://www.uibk.ac.at/">University of Innsbruck</a> in Austria in projects around Semantic Web and Web services. I published over <a href="https://scholar.google.be/citations?user=-DKTQpIAAAAJ">40 articles</a> in journals and conferences including IEEE Internet Computing, IEEE Software on topics of service‐oriented computing and Web engineering.</p>
+<h1>Recent Posts</h1>
+<div class="posts">
+  
+  <article class="post-thumbnail">
+    <p class="post-title">
+      <a href="/2022/04/inline-swimlanes-io-code-hugo/">Inline swimlanes.io code in Hugo</a>, <i>Apr 27, 2022</i>
+    </p>
+    <p class="post-thumbnail-entry" style="margin-top: -10px">
+    I often need to embed a simple sequence diagram into a page and I came across swimlanes.io which does exactly what I need. You can define a sequence diagram, download an image or embed a diagram into a page. I like the simplicity of it, however, I sometimes need to make a slight modifications to my sequence diagram, for example, to highlight a specific part of it by changing a color of a line, etc.
+    <a href="/2022/04/inline-swimlanes-io-code-hugo/">Read More…</a>
+    </p>
+  </article>
+  <article class="post-thumbnail">
+    <p class="post-title">
+      <a href="/2022/04/oracle-rac-db-behind-nginx-proxy/">Oracle RAC DB Behind Nginx Proxy</a>, <i>Apr 26, 2022</i>
+    </p>
+    <p class="post-thumbnail-entry" style="margin-top: -10px">
+    If you use Oracle Real Application Clusters (RAC) you most likely also use Single Client Access Name (SCAN) addresses to connect to your DB. A SCAN address usually resolves to a number of IPs where each IP uses a dedicated SCAN listener. Now assume that there is no connectivity from your client network to the DB network, for example, due to network routing restrictions. However, you can access a node that has such connectivity.
+    <a href="/2022/04/oracle-rac-db-behind-nginx-proxy/">Read More…</a>
+    </p>
+  </article>
+  <article class="post-thumbnail">
+    <p class="post-title">
+      <a href="/2019/07/soa-service-multithreading-problem/">SOA Service Multithreading Problem</a>, <i>Jul 8, 2019</i>
+    </p>
+    <p class="post-thumbnail-entry" style="margin-top: -10px">
+    When you develop your SOA services, you usually use a language such as BPEL (Business Process Execution Language) to implement a service orchestration logic. BPEL is a powerful language to implement any control flow logic you like as well as call downstream services by using SOAP or REST interfaces. It also gives you an opportunity to call a custom function developed in Java provided by a bespoke class loaded in your SOA platform.
+    <a href="/2019/07/soa-service-multithreading-problem/">Read More…</a>
+    </p>
+  </article>
+  <article class="post-thumbnail">
+    <p class="post-title">
+      <a href="/2019/06/service-call-resolver-timeout/">Service Outbound Call and DNS Resolver Timeout</a>, <i>Jun 25, 2019</i>
+    </p>
+    <p class="post-thumbnail-entry" style="margin-top: -10px">
+    In order to maintain your integration platform&rsquo;s resilience, you should have timeouts on your services&rsquo; outbound calls. When you do, any long running outbound service call won&rsquo;t block your threads. And it is important to have enough threads in your thread pool at any point in time as otherwise your integration middleware may be blocked and process no requests. These are obviously caveats of blocking I/O, when your integration middleware uses asynchronous (non-blocking) calls, the situation is different.
+    <a href="/2019/06/service-call-resolver-timeout/">Read More…</a>
+    </p>
+  </article>
+  <article class="post-thumbnail">
+    <p class="post-title">
+      <a href="/2019/06/weblogic-dms-metric-collector/">Weblogic DMS Metric Collector</a>, <i>Jun 7, 2019</i>
+    </p>
+    <p class="post-thumbnail-entry" style="margin-top: -10px">
+    I often need to evaluate performance of Weblogic apps, components and services and I use Weblogic Dynamic Monitoring Service that provides a massive amount of sensors. You can access DMS in a number of ways, such as Weblogic Scripting Tool (WLST), Java API or DMS Spy application. As it was a cumbersome process to always craft a Java program to retrieve a metric from DMS, I thought it would be much easier to retrieve metrics directly via DMS Spy app by using a command line utility just by saying which metrics from which DMS table you need.
+    <a href="/2019/06/weblogic-dms-metric-collector/">Read More…</a>
+    </p>
+  </article>
+</div>
 
-<p>I love building stuff and I am passionate about automation, distributed systems and machine learning. I started to code when I was 15 and got the first Atari 800XL computer from my father. My first project was the Monopoly board game. Since then, it&rsquo;s been a never ending story &ndash; the backlog of stuff I want to try out and understand never gets down to zero. In my free time, I play in my private home automation sandbox from networking and measuring temperature, energy consumption, and voice control to detecting movements, objects, faces, and pets.</p>
-
-<p>I was living in several cities around Europe, namely Cork and Galway in Ireland, Cologne in Germany, Innsbruck in Austria and last but not least Prague in the Czech Republic. My Czechoslovak family was born in Brussels, Belgium and I am currently living in the north of the Czech Republic near Prague with frequent back and forth travels to London.</p>
-
-<p>You can find me on <a href="https://github.com/tomvit">Github</a>, <a href="https://twitter.com/tomasvitvar">Twitter</a> or <a href="https://www.linkedin.com/in/vitvar/">LinkedIn</a> and should you be interested in my resume, feel free to drop me a note at tomas (at) vitvar (dot) com.</p>
-
+  
 
 
         <footer id="footer">

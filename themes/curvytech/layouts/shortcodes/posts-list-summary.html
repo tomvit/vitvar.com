@@ -1,0 +1,14 @@
+<h1>Recent Posts</h1>
+<div class="posts">
+  {{ range first 5 (where .Site.RegularPages "Section" "post") }}
+  <article class="post-thumbnail">
+    <p class="post-title">
+      <a href="{{ .Permalink }}">{{ .Title }}</a>, <i>{{ .Date.Format "Jan 2, 2006" }}</i>
+    </p>
+    <p class="post-thumbnail-entry" style="margin-top: -10px">
+    {{ .Summary }}
+    <a href="{{ .RelPermalink }}">Read More…</a>
+    </p>
+  </article>
+  {{- end }}
+</div>

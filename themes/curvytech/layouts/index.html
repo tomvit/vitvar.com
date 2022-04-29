@@ -1,4 +1,6 @@
 {{ define "main" }}
-	{{ with .GetPage "/home" }}{{ .Content }}{{end}}
+	{{ with .GetPage "/home" }}
+  {{ .Content }}
+  {{end}}
 {{ end }}
 
