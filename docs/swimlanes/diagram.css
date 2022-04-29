@@ -539,3 +539,11 @@ body.high-res .diagram .print-footer .powered-by {
   display: table;
   clear: both
 }
+
+.diagram .elements .element .message.rotate-down {
+  transform: rotate(2deg)
+}
+
+.diagram .elements .element .message.rotate-up {
+  transform: rotate(-2deg)
+}

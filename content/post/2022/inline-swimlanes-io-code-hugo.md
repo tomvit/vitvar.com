@@ -16,7 +16,7 @@ The following example shows how I use it in Hugo.
 ```
 {{</* swimlanes */>}}
 note: Example request-response interaction between a client and a server via a proxy
-client -> proxy: request
+client -/> proxy: request
 proxy -> server: forwarded request  
 server -> proxy: response 
 proxy -> client: response 
