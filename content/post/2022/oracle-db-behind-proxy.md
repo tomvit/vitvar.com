@@ -84,7 +84,11 @@ LOG_DIRECTORY_CLIENT=/home/oracle/sqlplus/logs
 DIAG_ADR_ENABLED=OFF
 ```
 
-When you connect to the DB now using the sqlplus command, there will be trace logs generated in `/home/oracle/sqlplus/logs` directory. You can now see that after the initial connection to the SCAN IP, there is an exchange of `NSPTCN` and `NSPTRD` packets which attempts to redirect the client to an IP of a DB node (see [reasons of redirect packets](https://support.oracle.com/epmos/faces/DocContentDisplay?id=758145.1) for more details). Such node is however not accessible from the client network and you get the connect timeout error.  
+When you connect to the DB now using the sqlplus command, there will be trace logs generated in `/home/oracle/sqlplus/logs` directory. You can now see that after the initial connection to the SCAN IP, there is an exchange of `NSPTCN` and `NSPTRD` packets which attempts to redirect the client to an IP of a DB node. The reason of redirect as outlined in [reasons of redirect packets](https://support.oracle.com/epmos/faces/DocContentDisplay?id=758145.1) is likely as follows. 
+
+> Oracle RAC uses redirect packet on connection to redirect connection to least load node/instance at the time of connection. Check the redirect packet for hostname. If rediect is due the load balancing, then this will show direct address information for another node in the cluster.
+
+The DB node is however not accessible from the client network and you get the connect timeout error.  
 
 ```
 [000001 25-APR-2022 17:01:31:905] nsopen: opening transport...
